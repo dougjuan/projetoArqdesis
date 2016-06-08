@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -193,22 +194,6 @@ public class ViewCadastraArtes extends JFrame implements ActionListener {
 	}  
 
 	
-
-	public static java.sql.Date formataData(String data) throws Exception {   
-		if (data == null || data.equals(""))  
-			return null;  
-
-		java.sql.Date date = null;  
-		try {  
-			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-			date = new java.sql.Date( ((java.util.Date)formatter.parse(data)).getTime() );  
-		} catch (ParseException e) { 
-			throw e; 
-		}  
-		return date;  
-	}  
-
-	
 	public boolean verifica(){
 		boolean flag = false;
 
@@ -293,9 +278,12 @@ public class ViewCadastraArtes extends JFrame implements ActionListener {
 
 					ModelArtes modelArtes = new ModelArtes();
 					
+					Date dataInicioD= modelArtes.formataData(dataInicio);
+					Date dataTerminoD = modelArtes.formataData(dataTermino);
+					
 					modelArtes.setNome(nome);
-					modelArtes.setDataInicio(formataData(dataInicio));
-					modelArtes.setDataTermino(formataData(dataTermino));
+					modelArtes.setDataInicio(dataInicioD);
+					modelArtes.setDataTermino(dataTerminoD);
 					modelArtes.setHorario(horario);
 					modelArtes.setVagas(vagas);
 					modelArtes.setValor(valor);

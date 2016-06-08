@@ -1,6 +1,9 @@
 package Model;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import Dao.DaoAluno;
@@ -174,11 +177,14 @@ public class ModelArtes {
 		dao.remover(id);
 	}
 
-	public void carregar() {
+	public void carregar(int num) {
+
+		ToArtes toArtes = new ToArtes();
 		
 		DaoArtes dao = new DaoArtes();
-		ToArtes toArtes = dao.getArtesById(id);
 		
+		toArtes = dao.getArtesById(num);
+
 		id = toArtes.getId();
 		nome = toArtes.getNome();
 		dataInicio = toArtes.getDataInicio();
@@ -188,11 +194,22 @@ public class ModelArtes {
 		valor = toArtes.getValor();
 		descMat = toArtes.getDescMat();
 		livros = toArtes.getLivros();
-		
+
 	}
 
 
+	public static java.sql.Date formataData(String data) throws Exception {   
+		if (data == null || data.equals(""))  
+			return null;  
 
-
+		java.sql.Date date = null;  
+		try {  
+			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+			date = new java.sql.Date( ((java.util.Date)formatter.parse(data)).getTime() );  
+		} catch (ParseException e) { 
+			throw e; 
+		}  
+		return date;  
+	}  
 
 }

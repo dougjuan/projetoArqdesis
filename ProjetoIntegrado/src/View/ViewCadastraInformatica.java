@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -192,20 +193,7 @@ public class ViewCadastraInformatica extends JFrame implements ActionListener {
 
 	
 
-	public static java.sql.Date formataData(String data) throws Exception {   
-		if (data == null || data.equals(""))  
-			return null;  
-
-		java.sql.Date date = null;  
-		try {  
-			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-			date = new java.sql.Date( ((java.util.Date)formatter.parse(data)).getTime() );  
-		} catch (ParseException e) { 
-			throw e; 
-		}  
-		return date;  
-	}  
-
+	
 	public boolean verifica(){
 		boolean flag = false;
 
@@ -287,19 +275,24 @@ public class ViewCadastraInformatica extends JFrame implements ActionListener {
 
 				} else {
 
-					ToInformatica toInformatica = new ToInformatica();
-					toInformatica.setNome(nome);
-					toInformatica.setDataInicio(formataData(dataInicio));
-					toInformatica.setDataTermino(formataData(dataTermino));
-					toInformatica.setHorario(horario);
-					toInformatica.setVagas(vagas);
-					toInformatica.setValor(valor);
-					toInformatica.setNumLab(numLab);
-					toInformatica.setRegSoft(regSoft);
+					ModelInformatica modelInformatica = new ModelInformatica();
+					
+					Date dataInicioD = modelInformatica.formataData(dataInicio);
+					Date dataTerminoD = modelInformatica.formataData(dataTermino);
+					
+					
+					modelInformatica.setNome(nome);
+					modelInformatica.setDataInicio(dataInicioD);
+					modelInformatica.setDataTermino(dataTerminoD);
+					modelInformatica.setHorario(horario);
+					modelInformatica.setVagas(vagas);
+					modelInformatica.setValor(valor);
+					modelInformatica.setNumLab(numLab);
+					modelInformatica.setRegSoft(regSoft);
 
 					DaoInformatica dao = new DaoInformatica();
 
-					dao.inserir(toInformatica); 
+					modelInformatica.criar();
 					txtNome.requestFocus();
 					limpar();
 

@@ -1,10 +1,11 @@
 package Model;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
-import Dao.DaoArtes;
 import Dao.DaoInformatica;
-import To.ToArtes;
 import To.ToInformatica;
 
 public class ModelInformatica {
@@ -169,16 +170,19 @@ public class ModelInformatica {
 		}
 		
 		public void excluir(int id) {
-			DaoArtes dao = new DaoArtes();
+			DaoInformatica dao = new DaoInformatica();
 			ToInformatica toInformatica = new ToInformatica();
 			toInformatica.setId(id);
 			dao.remover(id);
 		}
 		
-		public void carregar() {
+		public void carregar(int num) {
+			
+			ToInformatica toInformatica = new ToInformatica();
 			
 			DaoInformatica dao = new DaoInformatica();
-			ToInformatica toInformatica = dao.getInformaticaById(id);
+			
+			toInformatica = dao.getInformaticaById(num);
 			
 			id = toInformatica.getId();
 			nome = toInformatica.getNome();
@@ -191,6 +195,22 @@ public class ModelInformatica {
 			regSoft = toInformatica.getRegSoft();
 			
 		}
+		
+
+		public static java.sql.Date formataData(String data) throws Exception {   
+			if (data == null || data.equals(""))  
+				return null;  
+
+			java.sql.Date date = null;  
+			try {  
+				DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+				date = new java.sql.Date( ((java.util.Date)formatter.parse(data)).getTime() );  
+			} catch (ParseException e) { 
+				throw e; 
+			}  
+			return date;  
+		}  
+
 		
 		
 		

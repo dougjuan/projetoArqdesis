@@ -1,7 +1,15 @@
 package Model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import javax.swing.JOptionPane;
+
 import Dao.DaoAluno;
+import Dao.DaoArtes;
 import To.ToAluno;
+import To.ToArtes;
 
 
 public class ModelAluno {
@@ -142,12 +150,12 @@ public class ModelAluno {
 		dao.inserir(toAluno); 	
 
 	}
-	
+
 	public void atualizar() {
-		
+
 		DaoAluno dao = new DaoAluno();
 		ToAluno toAluno = new ToAluno();
-		
+
 		toAluno.setId(id);		
 		toAluno.setNome(nome);
 		toAluno.setEndereco(endereco);
@@ -157,20 +165,45 @@ public class ModelAluno {
 		toAluno.setCpf(cpf);
 		toAluno.setLogin(login);
 		toAluno.setSenha(senha);
-		
-		dao.atualizar(toAluno);
-		}
 
-	
+		dao.atualizar(toAluno);
+	}
+
+
 	public void excluir(int id) {
 		DaoAluno dao = new DaoAluno();
 		ToAluno toAluno = new ToAluno();
 		toAluno.setId(id);
 		dao.remover(id);
 	}
-	
-	
-	
+
+	public void carregar(int num) {
+
+		ToAluno toAluno = new ToAluno();
+
+		DaoAluno dao = new DaoAluno();
+
+		toAluno = dao.getAlunoById(num);
+
+		id = toAluno.getId();	
+		nome = toAluno.getNome();
+		endereco = toAluno.getEndereco();
+		telefone = toAluno.getTelefone();
+		email = toAluno.getEmail();
+		rg = toAluno.getRg();
+		cpf = toAluno.getCpf();
+		login = toAluno.getLogin();
+		senha = toAluno.getSenha();
+
+
+
+	}
+
+
+
+
+
+
 
 
 

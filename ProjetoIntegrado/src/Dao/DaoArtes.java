@@ -56,7 +56,7 @@ public class DaoArtes {
 				FabricaConexao.fechaConexao(conn, pstm); 
 			} catch (Exception e){
 				
-				JOptionPane.showMessageDialog(null, "Preencha os dados corretamente");
+				JOptionPane.showMessageDialog(null,"Preencha os campos corretamente!");
 			
 			}
 		} else {

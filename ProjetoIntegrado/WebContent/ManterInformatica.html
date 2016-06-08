@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de Informática</title>
+</head>
+<body>
+	<h3>Cadastro de Informática</h3>
+	<form method="post" action="manter_informatica.do">
+
+		<table>
+		<tr>
+				<td>ID:</td>
+				<td><input type="number" name="id" size="40"> <br /></td>
+			</tr>
+			<tr>
+				<td>Nome:</td>
+				<td><input type="text" name="nome" size="40"> <br /></td>
+			</tr>
+			
+			
+			<tr>
+				<td>Data Início:</td>
+				<td>
+				
+				<input type="number" name="diaInicio" size="9" maxlength="2" value="00"> 
+				<input type="number" name="mesInicio" size="9" maxlength="2" value="00"> 
+				<input type="number" name="anoInicio" size="9" maxlength="4" value="0000"> 
+				
+				</td>
+			</tr>
+			
+			
+		<tr>
+				<td>Data Término:</td>
+				<td>
+				
+				<input type="number" name="diaTermino" size="9" maxlength="2" value="00"> 
+				<input type="number" name="mesTermino" size="9" maxlength="2" value="00"> 
+				<input type="number" name="anoTermino" size="9" maxlength="4" value="0000"> 
+				
+				</td>
+			</tr>
+			
+			
+			
+			<tr>
+				<td>Horário:</td>
+				<td><input type="text" name="horario" size="40"> <br /></td>
+			</tr>
+			<tr>
+				<td>Vagas:</td>
+				<td><input type="text" name="vagas" size="40"> <br /></td>
+			</tr>
+
+			<tr>
+				<td>Valor:</td>
+				<td><input type="text" name="valor" size="40"> <br /></td>
+			</tr>
+
+			<tr>
+				<td>Número Laboratório:</td>
+				<td><input type="text" name="numLab" size="40"> <br /></td>
+			</tr>
+
+			<tr>
+				<td>Registro de Software:</td>
+				<td><input type="text" name="regSoft" size="40"> <br /></td>
+			</tr>
+
+		<tr>
+			
+			<td><input type="submit" name="acao" value="Inserir">
+			<input type="submit" name="acao" value="Atualizar">
+			<input type="submit" name="acao" value="Carregar"> 
+			<input type="submit" name="acao" value="Excluir"></td>
+		
+		</tr>
+		</table>
+
+	</form>
+</body>
+</html>

@@ -51,8 +51,8 @@ public class ViewRudAluno extends JFrame implements ActionListener {
 		criaJTable();
 		parIdioma = idioma;
 		parPais= pais;
-		
-		
+
+
 		setLayout(new FlowLayout());
 		//------------------- INTERNACIONALIZAÇÃO, CRIAÇÃO DA JTABLE E DEFINIÇÃO DO LAYOUT -----------------
 
@@ -111,15 +111,15 @@ public class ViewRudAluno extends JFrame implements ActionListener {
 
 
 		txtPesquisar = new JTextField(30);		
-		
+
 		String[] strEscolherBusca ={"Código","Nome","Rg"};
-		
-		
-		
+
+
+
 		cbEscolherBusca = new JComboBox<String>(strEscolherBusca);
 
 		btnPesquisar = new JButton ();
-		
+
 
 		panelBusca.add(lblPesquisar);
 		panelBusca.add(txtPesquisar);
@@ -235,7 +235,7 @@ public class ViewRudAluno extends JFrame implements ActionListener {
 		msgPesquisar= bn.getString("msgPesquisar");
 		msgRegistro = bn.getString("msgRegistro");
 		tituloAlerta = bn.getString("tituloAlerta");
-	
+
 	}
 
 
@@ -245,7 +245,6 @@ public class ViewRudAluno extends JFrame implements ActionListener {
 		if(e.getSource()==btnPreencher){
 
 			pesquisar(modelo);
-
 
 
 		}else if (e.getSource() == btnCancelar){
@@ -265,13 +264,13 @@ public class ViewRudAluno extends JFrame implements ActionListener {
 						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
 					int idAluno = (int) tabela.getValueAt(linhaSelecionada, 0);
-					
-					
+
+
 					ModelAluno modelAluno = new ModelAluno();
 					modelAluno.excluir(idAluno); 
-					
-					
-					
+
+
+
 					modelo.removeRow(linhaSelecionada);
 
 				} else {

@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -191,19 +192,6 @@ public class ViewAlteraInformatica extends JFrame implements ActionListener {
 	}  
 
 
-	public static java.sql.Date formataData(String data) throws Exception {   
-		if (data == null || data.equals(""))  
-			return null;  
-
-		java.sql.Date date = null;  
-		try {  
-			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-			date = new java.sql.Date( ((java.util.Date)formatter.parse(data)).getTime() );  
-		} catch (ParseException e) {              
-
-		}  
-		return date;  
-	}  
 
 	public boolean verifica(){
 		boolean flag = false;
@@ -316,10 +304,16 @@ public class ViewAlteraInformatica extends JFrame implements ActionListener {
 				} else {
 
 					ModelInformatica modelInformatica = new  ModelInformatica();
+					
+
+					Date dataInicioD = modelInformatica.formataData(dataInicio);
+					Date dataTerminoD = modelInformatica.formataData(dataTermino);
+					
+					
 					modelInformatica.setId(id);
 					modelInformatica.setNome(nome);
-					modelInformatica.setDataInicio(formataData(dataInicio));
-					modelInformatica.setDataTermino(formataData(dataTermino));
+					modelInformatica.setDataInicio(dataInicioD);
+					modelInformatica.setDataTermino(dataTerminoD);
 					modelInformatica.setHorario(horario);
 					modelInformatica.setVagas(vagas);
 					modelInformatica.setValor(valor);
