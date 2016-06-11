@@ -9,7 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import Model.ModelAluno;
 import To.ToAluno;
@@ -34,42 +34,47 @@ public class ListarAlunoController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
+		request.setCharacterEncoding("UTF-8");
+		
 		String chave = request.getParameter("data[search]");
+		
+		String acao = request.getParameter("acao");
 		
 		ModelAluno modelAluno = new ModelAluno();
 		
 		ArrayList<ToAluno> lista = null;
 		
-		if(chave != null && chave.length() > 0){
+		HttpSession session = request.getSession();
 		
-			try {
-				lista = modelAluno.listarAlunos(chave);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		} else {
 		
-			try {
-				lista = modelAluno.listarAlunos();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		
+		if (acao.equals("buscar")) {
+			if (chave != null && chave.length() > 0) {
+				try {
+					lista = modelAluno.listarAlunos(chave);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					lista = modelAluno.listarAlunos();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			
+			session.setAttribute("lista", lista);
+		} else if (acao.equals("reiniciar")) {
+			session.setAttribute("lista", null);
 		}
-		
-		request.setAttribute("lista", lista);
-		
-		RequestDispatcher dispatcher = request.
-		
-				getRequestDispatcher("ListarAluno.jsp");
-		
+
+		RequestDispatcher dispatcher = request
+				.getRequestDispatcher("ListarAluno.jsp");
 		dispatcher.forward(request, response);
-	
-	
-	
+			
+		
+			
 	
 	}
 

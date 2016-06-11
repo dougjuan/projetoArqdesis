@@ -11,10 +11,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-
+import Model.ModelAluno;
 import Model.ModelArtes;
-
+import To.ToAluno;
 import To.ToArtes;
 
 
@@ -44,6 +45,7 @@ public class ManterArtes extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 
 		String pAcao = request.getParameter("acao");
 
@@ -81,29 +83,27 @@ public class ManterArtes extends HttpServlet {
 		}
 
 		double valorD = 0.0;
-		
+
 		try {
-			
+
 			valorD = Double.parseDouble(pValor);
-			
+
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-	
+
 
 
 		ModelArtes modelArtes = new ModelArtes(id,pNome,dataInicio,dataTermino,pHorario,pVagas,valorD,pDescMaterial,pLivros);
-
-
-
-		
 		RequestDispatcher view = null;
 
+		HttpSession session = request.getSession();
+
 		if(pAcao.equals("Inserir")){
-			
-			
+
+
 
 			try {
 				modelArtes.criar();
@@ -113,20 +113,28 @@ public class ManterArtes extends HttpServlet {
 			}
 			ArrayList<ToArtes> lista = new ArrayList<>();
 			lista.add(modelArtes.getToArtes());
-			request.setAttribute("lista", lista);
+			session.setAttribute("lista", lista);
 			view = request.getRequestDispatcher("ListarArtes.jsp");
 
 		}else if(pAcao.equals("Excluir")){
 
 			modelArtes.excluir();	
+
+			ArrayList<ToArtes> lista = (ArrayList<ToArtes>)session.getAttribute("lista");
+
+			lista.remove(busca(modelArtes, lista));
+			session.setAttribute("lista", lista);
+
 			view = request.getRequestDispatcher("ListarArtes.jsp");
+
+
 
 		}else if (pAcao.equals("Atualizar")){
 
 			//ESSE QUE ALTERA
 
-			
-			
+
+
 			try {
 				modelArtes.carregar();
 			} catch (ClassNotFoundException e) {
@@ -149,26 +157,38 @@ public class ManterArtes extends HttpServlet {
 			request.setAttribute("artesTO",modelArtes.getToArtes() );
 			view = request.getRequestDispatcher("VisualizarArtes.jsp");
 
-		
+
 		}else if (pAcao.equals("Editar")){
+
 
 			//ESSE VISUALIZA
 
 			modelArtes.atualizar();
-			request.setAttribute("artesTO",modelArtes.getToArtes() );
-			view = request.getRequestDispatcher("VisualizarArtes.jsp");
+			ArrayList<ToArtes> lista = (ArrayList<ToArtes>)session.getAttribute("lista");
+
+			int pos = busca(modelArtes, lista);
+			lista.remove(pos);
+			lista.add(pos, modelArtes.getToArtes());
+
+			session.setAttribute("lista", lista);
+			request.setAttribute("artesTO", modelArtes.getToArtes());
+			view = request.getRequestDispatcher("VisualizarAluno.jsp");
 
 
 		}
 
 		view.forward(request, response);
-		
-		
 
-
-
-
-
+	}
+	public int busca(ModelArtes modelArtes, ArrayList<ToArtes> lista) {
+		ToArtes toArtes;
+		for(int i = 0; i < lista.size(); i++){
+			toArtes = lista.get(i);
+			if(toArtes.getId() == modelArtes.getId()){
+				return i;
+			}
+		}
+		return -1;
 	}
 
 

@@ -59,7 +59,7 @@
 							type="text"
 							placeholder="Pesquisar curso de informática (deixe vazio para trazer todos)">
 						<span class="input-group-btn">
-							<button class="btn btn-primary" type="submit">
+							<button class="btn btn-primary" type="submit" name="acao" value="buscar">
 								<span class="glyphicon glyphicon-search"></span>
 							</button>
 						</span>

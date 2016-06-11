@@ -12,11 +12,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import Model.ModelArtes;
 import Model.ModelInformatica;
-
+import To.ToArtes;
 import To.ToInformatica;
 
 /**
@@ -100,6 +100,8 @@ public class ManterInformaticaController extends HttpServlet {
 
 		RequestDispatcher view = null;	
 
+		HttpSession session = request.getSession();
+
 
 		if(pAcao.equals("Inserir")){
 
@@ -111,7 +113,7 @@ public class ManterInformaticaController extends HttpServlet {
 			}
 			ArrayList<ToInformatica> lista = new ArrayList<>();
 			lista.add(modelInformatica.getToInformatica());
-			request.setAttribute("lista", lista);
+			session.setAttribute("lista", lista);
 			view = request.getRequestDispatcher("ListarInformatica.jsp");
 
 
@@ -119,10 +121,11 @@ public class ManterInformaticaController extends HttpServlet {
 		}else if(pAcao.equals("Excluir")){
 
 
-			modelInformatica.excluir();	
+			modelInformatica.excluir();
+			ArrayList<ToInformatica> lista = (ArrayList<ToInformatica>)session.getAttribute("lista");
+			lista.remove(busca(modelInformatica, lista));
+			session.setAttribute("lista", lista);
 			view = request.getRequestDispatcher("ListarInformatica.jsp");
-
-
 
 		}else if (pAcao.equals("Atualizar")){
 
@@ -155,20 +158,31 @@ public class ManterInformaticaController extends HttpServlet {
 			//ESSE VISUALIZA
 
 			modelInformatica.atualizar();
+			ArrayList<ToInformatica> lista = (ArrayList<ToInformatica>)session.getAttribute("lista");
+
+			int pos = busca(modelInformatica, lista);
+			lista.remove(pos);
+			lista.add(pos, modelInformatica.getToInformatica());
+
+			session.setAttribute("lista", lista);
 			request.setAttribute("informaticaTO",modelInformatica.getToInformatica() );
 			view = request.getRequestDispatcher("VisualizarInformatica.jsp");
-
 
 		}
 
 		view.forward(request, response);
 
+	}
 
-
-
-
-
-
+	public int busca(ModelInformatica modelInformatica, ArrayList<ToInformatica> lista) {
+		ToInformatica toInformatica;
+		for(int i = 0; i < lista.size(); i++){
+			toInformatica= lista.get(i);
+			if(toInformatica.getId() == modelInformatica.getId()){
+				return i;
+			}
+		}
+		return -1;
 	}
 
 }

@@ -59,7 +59,7 @@
 							type="text"
 							placeholder="Pesquisar Alunos (deixe vazio para trazer todos)">
 						<span class="input-group-btn">
-							<button class="btn btn-primary" type="submit">
+							<button class="btn btn-primary" type="submit" name="acao" value="buscar">
 								<span class="glyphicon glyphicon-search"></span>
 							</button>
 						</span>
@@ -69,7 +69,7 @@
 				<div class="col-md-3">
 					<a href="CriarAluno.jsp" class="btn btn-primary pull-right h2">Novo
 						Aluno</a>
-				</div>
+				</div> 
 			</div>
 			<!-- /#top -->
 		</form>

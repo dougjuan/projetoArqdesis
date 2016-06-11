@@ -10,10 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import Model.ModelAluno;
 import To.ToAluno;
+
+
 
 
 /**
@@ -41,7 +43,8 @@ public class ManterAlunoController extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		request.setCharacterEncoding("UTF-8");
+		
 		String pAcao = request.getParameter("acao");	
 
 
@@ -64,6 +67,7 @@ public class ManterAlunoController extends HttpServlet {
 
 		ModelAluno modelAluno = new ModelAluno(id,pNome,pEndereco,pTelefone,pEmail,pRg,pCpf,pLogin,pSenha);
 		RequestDispatcher view = null;
+		HttpSession session = request.getSession();
 	
 	
 				
@@ -77,29 +81,40 @@ public class ManterAlunoController extends HttpServlet {
 				}
 				ArrayList<ToAluno> lista = new ArrayList<>();
 				lista.add(modelAluno.getTO());
-				request.setAttribute("lista", lista);
+				
+
+				session.setAttribute("lista", lista);
+							
 				view = request.getRequestDispatcher("ListarAluno.jsp");
 			
 			
 		}else if(pAcao.equals("Excluir")){
 
-			modelAluno.excluir();	
+			modelAluno.excluir();
+			
+			
+			ArrayList<ToAluno> lista = (ArrayList<ToAluno>)session.getAttribute("lista");
+			
+			lista.remove(busca(modelAluno, lista));
+			session.setAttribute("lista", lista);
+			
 			view = request.getRequestDispatcher("ListarAluno.jsp");
 
 
 		}else if (pAcao.equals("Atualizar")){
 
-			//ESSE QUE ALTERA
+			//ESSE QUE ALTERA		
 			
 			try {
 				modelAluno.carregar();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}			
+			}
+				
 			request.setAttribute("alunoTO", modelAluno.getTO());
-			view = request.getRequestDispatcher("AlterarAluno.jsp");		
-
+			view = request.getRequestDispatcher("AlterarAluno.jsp");	
+			
 		}else if (pAcao.equals("Carregar")){
 			
 			try {
@@ -117,8 +132,17 @@ public class ManterAlunoController extends HttpServlet {
 			//ESSE VISUALIZA
 			
 			modelAluno.atualizar();
-			request.setAttribute("alunoTO",modelAluno.getTO() );
+			ArrayList<ToAluno> lista = (ArrayList<ToAluno>)session.getAttribute("lista");
+			
+			int pos = busca(modelAluno, lista);
+			lista.remove(pos);
+			lista.add(pos, modelAluno.getTO());
+			
+			session.setAttribute("lista", lista);
+			request.setAttribute("alunoTO", modelAluno.getTO());
 			view = request.getRequestDispatcher("VisualizarAluno.jsp");
+			
+			
 			
 			
 		}
@@ -128,6 +152,17 @@ public class ManterAlunoController extends HttpServlet {
 		
 
 
+	}
+	
+	public int busca(ModelAluno modelAluno, ArrayList<ToAluno> lista) {
+		ToAluno toAluno;
+		for(int i = 0; i < lista.size(); i++){
+			toAluno = lista.get(i);
+			if(toAluno.getId() == modelAluno.getId()){
+				return i;
+			}
+		}
+		return -1;
 	}
 
 }
