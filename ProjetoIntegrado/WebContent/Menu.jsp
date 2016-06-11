@@ -15,9 +15,9 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="listar_aluno.do?acao=reiniciar">Alunos</a></li>
-					<li><a href="listar_artes.do?acao=reiniciar">Artes</a></li>
-					<li><a href="listar_informatica.do?acao=reiniciar">Informática</a></li>
+					<li><a href="controller.do?command=ListarAlunosReiniciar">Alunos</a></li>
+					<li><a href="controller.do?command=ListarArtesReiniciar">Artes</a></li>
+					<li><a href="controller.do?command=ListarInformaticaReiniciar">Informática</a></li>
 				</ul>
 			</div>
 		</div>

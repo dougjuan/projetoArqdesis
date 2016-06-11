@@ -157,7 +157,7 @@ public class DaoArtes {
 	public ArrayList<ToArtes> listarArtes(String chave) throws ClassNotFoundException {
 		ToArtes toArtes;
 		ArrayList<ToArtes> lista = new ArrayList<>();
-		String sqlSelect = "SELECT * FROM INFORMATICA WHERE UPPER (NOME) LIKE ?";
+		String sqlSelect = "SELECT * FROM ARTES WHERE UPPER (NOME) LIKE ?";
 		// usando o try with resources do Java 7, que fecha o que abriu
 		try (Connection conn = FabricaConexao.getConexao();
 				PreparedStatement stm = conn.prepareStatement(sqlSelect);) {

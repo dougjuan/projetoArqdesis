@@ -30,10 +30,9 @@
 				</div>
 				<div class="modal-body">Deseja realmente excluir este curso informática?</div>
 				<div class="modal-footer">
-					<form action="manter_informatica.do" method="post">
+					<form action="controller.do" method="post">
 						<input type="hidden" name="id" id="id_excluir" />
-						<button type="submit" class="btn btn-primary" name="acao"
-							value="Excluir">Sim</button>
+						<button type="submit" class="btn btn-primary" name="command" value="ExcluirInformatica">Sim</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
 					</form>
 				</div>
@@ -47,7 +46,7 @@
 
 	<!-- Container Principal -->
 	<div id="main" class="container-fluid">
-		<form action="listar_informatica.do" method="post">
+		<form action="controller.do" method="post">
 			<div id="top" class="row">
 				<div class="col-md-3">
 					<h2>Informática</h2>
@@ -59,7 +58,7 @@
 							type="text"
 							placeholder="Pesquisar curso de informática (deixe vazio para trazer todos)">
 						<span class="input-group-btn">
-							<button class="btn btn-primary" type="submit" name="acao" value="buscar">
+							<button class="btn btn-primary" type="submit" name="command" value="ListarInformaticaBuscar">
 								<span class="glyphicon glyphicon-search"></span>
 							</button>
 						</span>
@@ -109,8 +108,8 @@
 							<td>${to.regSoft}</td>
 							
 							   <td class="actions">
-                                                <a class="btn btn-success btn-xs" href="manter_informatica.do?acao=Carregar&id=${to.id }">Visualizar</a>
-                                                <a class="btn btn-warning btn-xs" href="manter_informatica.do?acao=Atualizar&id=${to.id }">Editar</a>
+                                                <a class="btn btn-success btn-xs" href="controller.do?command=VisualizarInformatica&id=${to.id }">Visualizar</a>
+                                                <a class="btn btn-warning btn-xs" href="controller.do?command=EditarInformatica&id=${to.id }">Editar</a>
                                                 <button id="btn${to.id }%>" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete-modal" data-cliente="${to.id }">Excluir</button>
                                             </td>
                                         </tr>

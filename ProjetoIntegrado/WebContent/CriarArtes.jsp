@@ -24,7 +24,7 @@
 	<div id="main" class="container">
 		<h3 class="page-header">Incluir Artes</h3>
 		<!-- Formulario para inclusao de clientes -->
-		<form action="manter_artes.do" method="post">
+		<form action="controller.do" method="post">
 
 			<!-- area de campos do form -->
 
@@ -102,8 +102,7 @@
 			<div id="actions" class="row">
 				<div class="col-md-12">
 
-					<button type="submit" class="btn btn-primary" name="acao"
-						value="Inserir">Inserir</button>
+					<button type="submit" class="btn btn-primary" name="command" value="CriarArtes">Inserir</button>
 
 					<a href="index.html" class="btn btn-default">Cancelar</a>
 

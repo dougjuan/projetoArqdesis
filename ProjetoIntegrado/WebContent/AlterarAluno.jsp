@@ -27,7 +27,7 @@
 			
 					
 		<!-- Formulario para alteração de clientes -->
-		<form action="manter_aluno.do" method="post">
+		<form action="controller.do" method="post">
 			<!-- area de campos do form -->
 			<input type="hidden" name="id" value="${alunoTO.id }" />
 
@@ -107,8 +107,7 @@
 
 			<div id="actions" class="row">
 				<div class="col-md-12">
-					<button type="submit" class="btn btn-primary" name="acao"
-						value="Editar">Salvar</button>
+					<button type="submit" class="btn btn-primary" name="command" value="AlterarAluno">Salvar</button>
 					<a href="ListarAlunos.jsp" class="btn btn-default">Cancelar</a>
 				</div>
 			</div>

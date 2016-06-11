@@ -30,10 +30,9 @@
 				<div class="modal-body">Deseja realmente excluir este aluno?
 				</div>
 				<div class="modal-footer">
-					<form action="manter_aluno.do" method="post">
+					<form action="controller.do" method="post">
 						<input type="hidden" name="id" value="${alunoTO.id }" />
-						<button type="submit" class="btn btn-primary" name="acao"
-							value="Excluir">Sim</button>
+						<button type="submit" class="btn btn-primary" name="command" value="ExcluirCliente">Sim</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
 					</form>
 				</div>
@@ -119,7 +118,7 @@
 		</div>
 		<div id="actions" class="row">
 			<div class="col-md-12">
-				<a href="manter_aluno.do?acao=Atualizar&id=${alunoTO.id }"
+				<a href="controller.do?command=EditarAluno&id=${alunoTO.id }"
 					class="btn btn-primary">Editar</a> <a href="#"
 					class="btn btn-danger" data-toggle="modal"
 					data-target="#delete-modal">Excluir</a> <a
