@@ -52,7 +52,7 @@ public class DaoAluno {
 				JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso"); 
 				FabricaConexao.fechaConexao(conn, pstm); 
 			} catch (Exception e){ 
-				JOptionPane.showMessageDialog(null, "Preencha os dados corretamente");}
+				JOptionPane.showMessageDialog(null,e /*"Preencha os dados corretamente"*/);}
 		} else {
 			System.out.println("O aluno enviado por parâmetro está vazio");
 		} 

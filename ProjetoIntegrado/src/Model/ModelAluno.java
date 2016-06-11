@@ -134,8 +134,16 @@ public class ModelAluno {
 	public void criar() {
 
 		DaoAluno dao = new DaoAluno();		
+		ToAluno toAluno = getTO();
+		dao.inserir(toAluno); 	
+
+	}
+
+	public ToAluno getTO() {
+		
 		ToAluno toAluno = new ToAluno(); 
 
+		toAluno.setId(id);
 		toAluno.setNome(nome);
 		toAluno.setEndereco(endereco);
 		toAluno.setTelefone(telefone);
@@ -144,28 +152,14 @@ public class ModelAluno {
 		toAluno.setCpf(cpf);
 		toAluno.setLogin(login);
 		toAluno.setSenha(senha);
-
-
-
-		dao.inserir(toAluno); 	
-
+		
+		return toAluno;
 	}
 
 	public void atualizar() {
 
 		DaoAluno dao = new DaoAluno();
-		ToAluno toAluno = new ToAluno();
-
-		toAluno.setId(id);		
-		toAluno.setNome(nome);
-		toAluno.setEndereco(endereco);
-		toAluno.setTelefone(telefone);
-		toAluno.setEmail(email);
-		toAluno.setRg(rg);
-		toAluno.setCpf(cpf);
-		toAluno.setLogin(login);
-		toAluno.setSenha(senha);
-
+		ToAluno toAluno = getTO();
 		dao.atualizar(toAluno);
 	}
 

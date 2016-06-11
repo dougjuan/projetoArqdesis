@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.ParseException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -62,13 +63,9 @@ public class ManterArtes extends HttpServlet {
 		int id = Integer.parseInt(pId);
 		
 		ModelArtes modelArtes = new ModelArtes();
-
 		
 
-		//FALTA O IF DOS BOTÕES 
-
 		if(pAcao.equals("Inserir")){
-			
 			
 			String pDataInicio = pDiaInicio+"/"+pMesInicio+"/"+pAnoInicio;
 
@@ -109,41 +106,18 @@ public class ManterArtes extends HttpServlet {
 			modelArtes.setLivros(pLivros);
 
 			
-
+			
+			
 			modelArtes.criar();	
-			PrintWriter out = response.getWriter();
-			out.println("<html><head><title>Aluno Cadastrado");
-			out.println("</title></head><body>");
-			out.println("O curso: " + modelArtes.getNome() +" foi cadastrado com sucesso!"+ "<br>");
-			out.println("</body></html>");
+			
 
 		}else if(pAcao.equals("Excluir")){
 
 			modelArtes.excluir(id);		
-			JOptionPane.showMessageDialog(null,"Curso excluído com sucesso");
-
-		}else if (pAcao.equals("Carregar")){
-
-			modelArtes.carregar(id);
 			
-			PrintWriter out = response.getWriter();
-			out.println("<html><head><title>Curso Consultado: ");
-			out.println("</title></head><body>");
-			out.println("Id:" + modelArtes.getId() + "<br>");
-			out.println("Nome:" + modelArtes.getNome() + "<br>");
-			out.println("Data início:" + modelArtes.getDataInicio() + "<br>");
-			out.println("Data término:" + modelArtes.getDataTermino() + "<br>");
-			out.println("Horário:" + modelArtes.getHorario() + "<br>");
-			out.println("Vagas:" + modelArtes.getVagas() + "<br>");
-			out.println("Valor: R$" + modelArtes.getValor() + "<br>");
-			out.println("Descrição material:" + modelArtes.getDescMat() + "<br>");
-			out.println("Livros:" + modelArtes.getLivros() + "<br>");
-			out.println("</body></html>");
-							
 
 		}else if (pAcao.equals("Atualizar")){
 			
-					
 			String pDataInicio = pDiaInicio+"/"+pMesInicio+"/"+pAnoInicio;
 
 			String pDataTermino = pDiaTermino+"/"+pMesTermino+"/"+pAnoTermino;
@@ -181,12 +155,25 @@ public class ManterArtes extends HttpServlet {
 			modelArtes.setValor(valorD);
 			modelArtes.setDescMat(pDescMaterial);
 			modelArtes.setLivros(pLivros);
+
 			
+						
 			modelArtes.atualizar();
 			
 		}
+		
+		modelArtes.carregar(id);
+		request.setAttribute("artesTO",modelArtes.getToArtes() );
+		RequestDispatcher dispatcher = request.getRequestDispatcher("ArtesCadastrado.jsp");
+		dispatcher.forward(request, response);
+		
+		
+		
 
 
 	}
+	
+	
+	
 
 }

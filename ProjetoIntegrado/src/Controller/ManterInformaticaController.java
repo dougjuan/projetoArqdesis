@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.ParseException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -106,35 +107,11 @@ public class ManterInformaticaController extends HttpServlet {
 
 
 			modelInformatica.criar();	
-			PrintWriter out = response.getWriter();
-			out.println("<html><head><title>Aluno Cadastrado");
-			out.println("</title></head><body>");
-			out.println("O curso: " + modelInformatica.getNome() +" foi cadastrado com sucesso!"+ "<br>");
-			out.println("</body></html>");
-
+			
 		}else if(pAcao.equals("Excluir")){
 
 			modelInformatica.excluir(id);		
-			JOptionPane.showMessageDialog(null,"Curso excluído com sucesso");
-
-		}else if (pAcao.equals("Carregar")){
-
-			modelInformatica.carregar(id);
-
-			PrintWriter out = response.getWriter();
-			out.println("<html><head><title>Curso Consultado: ");
-			out.println("</title></head><body>");
-			out.println("Id:" + modelInformatica.getId() + "<br>");
-			out.println("Nome:" + modelInformatica.getNome() + "<br>");
-			out.println("Data início:" + modelInformatica.getDataInicio() + "<br>");
-			out.println("Data término:" + modelInformatica.getDataTermino() + "<br>");
-			out.println("Horário:" + modelInformatica.getHorario() + "<br>");
-			out.println("Vagas:" + modelInformatica.getVagas() + "<br>");
-			out.println("Valor: R$" + modelInformatica.getValor() + "<br>");
-			out.println("Número Laboratório:" + modelInformatica.getNumLab() + "<br>");
-			out.println("Registro de software:" + modelInformatica.getRegSoft() + "<br>");
-			out.println("</body></html>");
-
+		
 
 		}else if (pAcao.equals("Atualizar")){
 			
@@ -179,6 +156,11 @@ public class ManterInformaticaController extends HttpServlet {
 			modelInformatica.atualizar();
 			
 		}
+		
+		modelInformatica.carregar(id);
+		request.setAttribute("informaticaTO",modelInformatica.getToInformatica() );
+		RequestDispatcher dispatcher = request.getRequestDispatcher("InformaticaCadastrado.jsp");
+		dispatcher.forward(request, response);
 
 
 

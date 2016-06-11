@@ -135,26 +135,15 @@ public class ModelArtes {
 	public void criar() {
 
 		DaoArtes dao = new DaoArtes();		
-		ToArtes toArtes = new ToArtes(); 
-
-
-		toArtes.setNome(nome);
-		toArtes.setDataInicio(dataInicio);
-		toArtes.setDataTermino(dataTermino);
-		toArtes.setHorario(horario);
-		toArtes.setVagas(vagas);
-		toArtes.setValor(valor);
-		toArtes.setDescMat(descMat);
-		toArtes.setLivros(livros);
+		ToArtes toArtes = getToArtes();
 
 		dao.inserir(toArtes); 	
 
 	}
 
-	public void atualizar() {
-
-		DaoArtes dao = new DaoArtes();		
+	public ToArtes getToArtes() {
 		ToArtes toArtes = new ToArtes(); 
+
 
 		toArtes.setId(id);
 		toArtes.setNome(nome);
@@ -165,6 +154,13 @@ public class ModelArtes {
 		toArtes.setValor(valor);
 		toArtes.setDescMat(descMat);
 		toArtes.setLivros(livros);
+		return toArtes;
+	}
+
+	public void atualizar() {
+
+		DaoArtes dao = new DaoArtes();		
+		ToArtes toArtes = getToArtes();
 
 		dao.atualizar(toArtes); 	
 

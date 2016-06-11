@@ -3,6 +3,7 @@ package Controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -54,58 +55,40 @@ public class ManterAlunoController extends HttpServlet {
 
 		int id = Integer.parseInt(pId);
 
-		ModelAluno modelAluno = new ModelAluno(id, pNome, pEndereco, pTelefone, pEmail, pRg, pCpf, pLogin, pSenha);
-
-
+		//ModelAluno modelAluno = new ModelAluno(id,pNome,pEndereco,pTelefone,pEmail,pRg,pCpf,pLogin,pSenha);
+		
+		ModelAluno modelAluno = new ModelAluno();
+		
+		modelAluno.setId(id);
+		modelAluno.setNome(pNome);
+		modelAluno.setEndereco(pEndereco);
+		modelAluno.setTelefone(pTelefone);
+		modelAluno.setEmail(pEmail);
+		modelAluno.setRg(pRg);
+		modelAluno.setCpf(pCpf);
+		modelAluno.setLogin(pLogin);
+		modelAluno.setSenha(pSenha);
+				
 		if(pAcao.equals("Inserir")){
 
 			modelAluno.criar();	
-			PrintWriter out = response.getWriter();
-			out.println("<html><head><title>Aluno Cadastrado");
-			out.println("</title></head><body>");
-			out.println("O aluno: " + modelAluno.getNome() +" foi cadastrado com sucesso!"+ "<br>");
-			out.println("</body></html>");
-
+			
 		}else if(pAcao.equals("Excluir")){
 
 			modelAluno.excluir(id);		
-			JOptionPane.showMessageDialog(null,"Aluno excluído com sucesso");
-
-		}else if (pAcao.equals("Carregar")){
-
-			modelAluno.carregar(id);
-
-			PrintWriter out = response.getWriter();
-			out.println("<html><head><title>Aluno Cadastrado");
-			out.println("</title></head><body>");
-			out.println("Id:" + modelAluno.getId() + "<br>");
-			out.println("Nome:" + modelAluno.getNome() + "<br>");
-			out.println("Endereço:" + modelAluno.getEndereco() + "<br>");
-			out.println("Telefone:" + modelAluno.getTelefone() + "<br>");
-			out.println("Email:" + modelAluno.getEmail() + "<br>");
-			out.println("Rg:" + modelAluno.getRg() + "<br>");
-			out.println("Cpf:" + modelAluno.getCpf() + "<br>");
-			out.println("Login:" + modelAluno.getLogin() + "<br>");
-			out.println("Senha:" + modelAluno.getSenha() + "<br>");
-			out.println("</body></html>");
-
 
 
 		}else if (pAcao.equals("Atualizar")){
 
-
 			modelAluno.atualizar();
 
-
-
 		}
-
-
-
-
-
-
-
+		
+		modelAluno.carregar(id);
+		request.setAttribute("alunoTO",modelAluno.getTO() );
+		RequestDispatcher dispatcher = request.getRequestDispatcher("AlunoCadastrado.jsp");
+		dispatcher.forward(request, response);
+		
 
 
 	}

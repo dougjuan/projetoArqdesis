@@ -134,26 +134,15 @@ public class ModelInformatica {
 		public void criar() {
 
 			DaoInformatica dao = new DaoInformatica();		
-			ToInformatica toInformatica = new ToInformatica(); 
-			
-			
-			toInformatica.setNome(nome);
-			toInformatica.setDataInicio(dataInicio);
-			toInformatica.setDataTermino(dataTermino);
-			toInformatica.setHorario(horario);
-			toInformatica.setVagas(vagas);
-			toInformatica.setValor(valor);
-			toInformatica.setNumLab(numLab);
-			toInformatica.setRegSoft(regSoft);
+			ToInformatica toInformatica = getToInformatica();
 
 			dao.inserir(toInformatica); 	
 
 		}
-		
-		public void atualizar() {
 
-			DaoInformatica dao = new DaoInformatica();		
+		public ToInformatica getToInformatica() {
 			ToInformatica toInformatica = new ToInformatica(); 
+			
 			
 			toInformatica.setId(id);
 			toInformatica.setNome(nome);
@@ -164,6 +153,13 @@ public class ModelInformatica {
 			toInformatica.setValor(valor);
 			toInformatica.setNumLab(numLab);
 			toInformatica.setRegSoft(regSoft);
+			return toInformatica;
+		}
+		
+		public void atualizar() {
+
+			DaoInformatica dao = new DaoInformatica();		
+			ToInformatica toInformatica = getToInformatica();
 
 			dao.atualizar(toInformatica); 	
 
