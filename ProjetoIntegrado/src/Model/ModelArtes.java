@@ -5,10 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import Dao.DaoAluno;
 import Dao.DaoArtes;
-import To.ToAluno;
 import To.ToArtes;
 
 public class ModelArtes {
@@ -132,12 +129,12 @@ public class ModelArtes {
 		this.livros = livros;
 	}
 
-	public void criar() {
+	public void criar() throws ClassNotFoundException {
 
 		DaoArtes dao = new DaoArtes();		
 		ToArtes toArtes = getToArtes();
-
 		dao.inserir(toArtes); 	
+		this.id = toArtes.getId();
 
 	}
 
@@ -166,20 +163,23 @@ public class ModelArtes {
 
 	}
 
-	public void excluir(int id) {
+	public void excluir() {
 		DaoArtes dao = new DaoArtes();
 		ToArtes toArtes = new ToArtes();
 		toArtes.setId(id);
-		dao.remover(id);
+		dao.remover(toArtes);
 	}
 
-	public void carregar(int num) {
+	
+	
+	
+	public void carregar() throws ClassNotFoundException {
 
 		ToArtes toArtes = new ToArtes();
 		
 		DaoArtes dao = new DaoArtes();
 		
-		toArtes = dao.getArtesById(num);
+		toArtes = dao.carregar(id);
 
 		id = toArtes.getId();
 		nome = toArtes.getNome();
@@ -192,7 +192,7 @@ public class ModelArtes {
 		livros = toArtes.getLivros();
 
 	}
-
+	
 
 	public static java.sql.Date formataData(String data) throws Exception {   
 		if (data == null || data.equals(""))  
@@ -200,12 +200,33 @@ public class ModelArtes {
 
 		java.sql.Date date = null;  
 		try {  
-			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
 			date = new java.sql.Date( ((java.util.Date)formatter.parse(data)).getTime() );  
 		} catch (ParseException e) { 
 			throw e; 
 		}  
 		return date;  
 	}  
+	
+	
+	
+	public ArrayList<ToArtes> listarArtes() throws ClassNotFoundException{
+		ArrayList<ToArtes> lista;
+		DaoArtes dao = new DaoArtes();
+		lista = dao.listarArtes();
+		return lista;
+	}
+	public ArrayList<ToArtes> listarArtes(String chave) throws ClassNotFoundException{
+		ArrayList<ToArtes> lista;
+		DaoArtes dao = new DaoArtes();
+		lista = dao.listarArtes(chave);
+		return lista;
+	}
+
+	
+	
+	
+	
+	
 
 }

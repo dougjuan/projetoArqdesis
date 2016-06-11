@@ -3,250 +3,195 @@ package Dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.JOptionPane;
 
 import ConnectionFactory.FabricaConexao;
+
 import To.ToInformatica;
 
 public class DaoInformatica {
 
 
-	private final String INSERT = "INSERT INTO INFORMATICA (NOME, DATAINICIO, DATATERMINO, HORARIO, NUMEROVAGAS, VALOR, NUMEROLABORATORIO, REGISTROSOFTWARE) VALUES (?,?,?,?,?,?,?,?)"; 
-	private final String UPDATE = "UPDATE INFORMATICA SET NOME = ?, DATAINICIO= ?, DATATERMINO = ?, HORARIO= ?, NUMEROVAGAS= ?, VALOR= ?, NUMEROLABORATORIO = ?, REGISTROSOFTWARE = ? WHERE COD_INFORMATICA = ?";
-	private final String DELETE = "DELETE FROM INFORMATICA WHERE COD_INFORMATICA =?";
-	private final String LIST = "SELECT * FROM INFORMATICA";
-	private final String LISTBYID = "SELECT * FROM INFORMATICA WHERE COD_INFORMATICA=?"; 
-	private final String LISTBYNOME = "SELECT * FROM INFORMATICA WHERE NOME=?"; 
-	private final String LISTBYVAGAS = "SELECT * FROM INFORMATICA WHERE NUMEROVAGAS=?"; 
 
 
-	public void inserir(ToInformatica toInformatica) { 
+	public void inserir(ToInformatica toInformatica) throws ClassNotFoundException {
 
-		if (toInformatica != null) { 
-
-			Connection conn = null; 
-
-			try { 
-
-				conn = FabricaConexao.getConexao();
-				PreparedStatement pstm;				
-				pstm = conn.prepareStatement(INSERT);
-
-				pstm.setString(1,toInformatica.getNome());
-				pstm.setDate(2,toInformatica.getDataInicio());
-				pstm.setDate(3,toInformatica.getDataTermino());
-				pstm.setString(4,toInformatica.getHorario());
-				pstm.setString(5,toInformatica.getVagas());
-				pstm.setDouble(6,toInformatica.getValor());
-				pstm.setString(7,toInformatica.getNumLab());
-				pstm.setString(8,toInformatica.getRegSoft());
+		String sqlInsert = "INSERT INTO INFORMATICA (NOME, DATAINICIO, DATATERMINO, HORARIO, NUMEROVAGAS, VALOR, NUMEROLABORATORIO, REGISTROSOFTWARE) VALUES (?,?,?,?,?,?,?,?)";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao(); 
+				PreparedStatement stm = conn.prepareStatement(sqlInsert);) {
 
 
-
-				pstm.execute();
-				JOptionPane.showMessageDialog(null, "Curso cadastrado com sucesso"); 
-				FabricaConexao.fechaConexao(conn, pstm); 
-			} catch (Exception e){ 
-				JOptionPane.showMessageDialog(null, "Preencha os dados corretamente");}
-		} else {
-			System.out.println("O curso enviado por parâmetro está vazio");
-		} 
-	}
-	public void atualizar(ToInformatica toInformatica) {
-
-		if (toInformatica != null) { 
-
-			Connection conn = null;
-
-			try { 
-
-				conn = FabricaConexao.getConexao();
-				PreparedStatement pstm; 
-				pstm = conn.prepareStatement(UPDATE);
+			stm.setString(1,toInformatica.getNome());
+			stm.setDate(2,toInformatica.getDataInicio());
+			stm.setDate(3,toInformatica.getDataTermino());
+			stm.setString(4,toInformatica.getHorario());
+			stm.setString(5,toInformatica.getVagas());
+			stm.setDouble(6,toInformatica.getValor());
+			stm.setString(7,toInformatica.getNumLab());
+			stm.setString(8,toInformatica.getRegSoft());
 
 
-				pstm.setString(1,toInformatica.getNome());
-				pstm.setDate(2,toInformatica.getDataInicio());
-				pstm.setDate(3,toInformatica.getDataTermino());
-				pstm.setString(4,toInformatica.getHorario());
-				pstm.setString(5,toInformatica.getVagas());
-				pstm.setDouble(6,toInformatica.getValor());
-				pstm.setString(7,toInformatica.getNumLab());
-				pstm.setString(8,toInformatica.getRegSoft());
-				pstm.setInt(9,toInformatica.getId());
+			stm.execute();
 
+			String sqlSelect = "SELECT LAST_INSERT_ID()";
 
-				pstm.execute(); 
-
-				JOptionPane.showMessageDialog(null, "Curso alterado com sucesso"); 
-
-				FabricaConexao.fechaConexao(conn);
-
-			} catch (Exception e) { 
-				JOptionPane.showMessageDialog(null, "Preencha os dados corretamente");
+			try(PreparedStatement stm1 = conn.prepareStatement(sqlSelect);
+					ResultSet rs = stm1.executeQuery();){
+				if(rs.next()){
+					toInformatica.setId(rs.getInt(1));
+				}
 			}
-
-		} else {
-
-			JOptionPane.showMessageDialog(null, "O curso enviado por parâmetro está vazio"); 
-
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
-	public void remover(int id) { 
-		Connection conn = null;
-		try {
-			conn = FabricaConexao.getConexao();
-			PreparedStatement pstm; 
-			pstm = conn.prepareStatement(DELETE);
-			pstm.setInt(1, id);
-			pstm.execute();
-			FabricaConexao.fechaConexao(conn, pstm);
+	
+	public void atualizar(ToInformatica toInformatica) {
+		String sqlUpdate = "UPDATE INFORMATICA SET NOME = ?, DATAINICIO= ?, DATATERMINO = ?, HORARIO= ?, NUMEROVAGAS= ?, VALOR= ?, NUMEROLABORATORIO = ?, REGISTROSOFTWARE = ? WHERE COD_INFORMATICA = ?";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao(); 
+				PreparedStatement stm = conn.prepareStatement(sqlUpdate);) {
+
+			stm.setString(1,toInformatica.getNome());
+			stm.setDate(2,toInformatica.getDataInicio());
+			stm.setDate(3,toInformatica.getDataTermino());
+			stm.setString(4,toInformatica.getHorario());
+			stm.setString(5,toInformatica.getVagas());
+			stm.setDouble(6,toInformatica.getValor());
+			stm.setString(7,toInformatica.getNumLab());
+			stm.setString(8,toInformatica.getRegSoft());
+			stm.setInt(9,toInformatica.getId());
+
+
+			stm.execute();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao excluir curso do banco de" + "dados " + e.getMessage()); 
+			e.printStackTrace();
 		}
 	}
-	public List<ToInformatica> getInformatica() { 
-		Connection conn = null;
-		PreparedStatement pstm = null; 
-		ResultSet rs = null; 
-		ArrayList<ToInformatica> arrayInformatica = new ArrayList<ToInformatica>(); 
-		try { 
-			conn = FabricaConexao.getConexao();
-			pstm = conn.prepareStatement(LIST); 
-			rs = pstm.executeQuery(); 
-			while (rs.next()) {
-				ToInformatica toInformatica = new ToInformatica();
 
-				toInformatica.setId(rs.getInt("cod_Informatica"));
-				toInformatica.setNome(rs.getString("nome"));
-				toInformatica.setDataInicio(rs.getDate("dataInicio")); 
-				toInformatica.setDataTermino(rs.getDate("dataTermino"));								
-				toInformatica.setHorario(rs.getString("horario"));
-				toInformatica.setVagas(rs.getString("numeroVagas"));
-				toInformatica.setValor(rs.getDouble("valor"));
-				toInformatica.setNumLab(rs.getString("numeroLaboratorio"));
-				toInformatica.setRegSoft(rs.getString("registroSoftware"));
 
-				arrayInformatica.add(toInformatica); 
-			} 
-			FabricaConexao.fechaConexao(conn, pstm, rs);
+	public void remover(ToInformatica toInformatica) {
+		String sqlDelete = "DELETE FROM INFORMATICA WHERE COD_INFORMATICA =?";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao(); 
+				PreparedStatement stm = conn.prepareStatement(sqlDelete);) {
+
+			stm.setInt(1, toInformatica.getId());
+
+			stm.execute();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao listar curso" + e.getMessage());
+			e.printStackTrace();
 		}
-		return arrayInformatica;
-	} 
-	public ToInformatica getInformaticaById(int id) { 
-		Connection conn = null;
-		PreparedStatement pstm = null;
-		ResultSet rs = null; 
+	}
+
+	public ToInformatica carregar(int id) throws ClassNotFoundException {
 		ToInformatica toInformatica = new ToInformatica();
-		try { 
-			conn = FabricaConexao.getConexao(); 
-			pstm = conn.prepareStatement(LISTBYID); 
-			pstm.setInt(1, id);
-			rs = pstm.executeQuery(); 
-			while (rs.next()) { 
+		toInformatica.setId(id);
+		String sqlSelect = "SELECT * FROM INFORMATICA WHERE COD_INFORMATICA=?";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao(); 
+				PreparedStatement stm = conn.prepareStatement(sqlSelect);) {
+			stm.setInt(1, id);
+			try (ResultSet rs = stm.executeQuery();) {
+				if (rs.next()) {
 
-
-				toInformatica.setId(rs.getInt("cod_Informatica"));
-				toInformatica.setNome(rs.getString("nome"));
-				toInformatica.setDataInicio(rs.getDate("dataInicio")); 
-				toInformatica.setDataTermino(rs.getDate("dataTermino"));								
-				toInformatica.setHorario(rs.getString("horario"));
-				toInformatica.setVagas(rs.getString("numeroVagas"));
-				toInformatica.setValor(rs.getDouble("valor"));
-				toInformatica.setNumLab(rs.getString("numeroLaboratorio"));
-				toInformatica.setRegSoft(rs.getString("registroSoftware"));
-
-			} 
-
-			FabricaConexao.fechaConexao(conn, pstm, rs);
-
-		} catch (Exception e) {
-
-			JOptionPane.showMessageDialog(null, "Erro ao listar curso" + e.getMessage());
-
-		} 
-
+					toInformatica.setId(rs.getInt("cod_Informatica"));
+					toInformatica.setNome(rs.getString("nome"));
+					toInformatica.setDataInicio(rs.getDate("dataInicio")); 
+					toInformatica.setDataTermino(rs.getDate("dataTermino"));								
+					toInformatica.setHorario(rs.getString("horario"));
+					toInformatica.setVagas(rs.getString("numeroVagas"));
+					toInformatica.setValor(rs.getDouble("valor"));
+					toInformatica.setNumLab(rs.getString("numeroLaboratorio"));
+					toInformatica.setRegSoft(rs.getString("registroSoftware"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException e1) {
+			System.out.print(e1.getStackTrace());
+		}
 		return toInformatica;
-
-	} 
-	public ToInformatica getInformaticaByNome(String nome) { 
-		Connection conn = null;
-		PreparedStatement pstm = null;
-		ResultSet rs = null; 
-		ToInformatica toInformatica = new ToInformatica();
-		try { 
-			conn = FabricaConexao.getConexao(); 
-			pstm = conn.prepareStatement(LISTBYNOME); 
-			pstm.setString(1, nome);
-			rs = pstm.executeQuery(); 
-			while (rs.next()) { 
+	}
 
 
-				toInformatica.setId(rs.getInt("cod_Informatica"));
-				toInformatica.setNome(rs.getString("nome"));
-				toInformatica.setDataInicio(rs.getDate("dataInicio")); 
-				toInformatica.setDataTermino(rs.getDate("dataTermino"));								
-				toInformatica.setHorario(rs.getString("horario"));
-				toInformatica.setVagas(rs.getString("numeroVagas"));
-				toInformatica.setValor(rs.getDouble("valor"));
-				toInformatica.setNumLab(rs.getString("numeroLaboratorio"));
-				toInformatica.setRegSoft(rs.getString("registroSoftware"));
-
-			} 
-
-			FabricaConexao.fechaConexao(conn, pstm, rs);
-
-		} catch (Exception e) {
-
-			JOptionPane.showMessageDialog(null, "Erro ao listar curso" + e.getMessage());
-
-		} 
-
-		return toInformatica;
-
-	} 
-
-	public ToInformatica getInformaticaByVagas(String vagas) { 
-		Connection conn = null;
-		PreparedStatement pstm = null;
-		ResultSet rs = null; 
-		ToInformatica toInformatica = new ToInformatica();
-		try { 
-			conn = FabricaConexao.getConexao(); 
-			pstm = conn.prepareStatement(LISTBYVAGAS); 
-			pstm.setString(1, vagas);
-			rs = pstm.executeQuery(); 
-			while (rs.next()) { 
+	
 
 
-				toInformatica.setId(rs.getInt("cod_Informatica"));
-				toInformatica.setNome(rs.getString("nome"));
-				toInformatica.setDataInicio(rs.getDate("dataInicio")); 
-				toInformatica.setDataTermino(rs.getDate("dataTermino"));								
-				toInformatica.setHorario(rs.getString("horario"));
-				toInformatica.setVagas(rs.getString("numeroVagas"));
-				toInformatica.setValor(rs.getDouble("valor"));
-				toInformatica.setNumLab(rs.getString("numeroLaboratorio"));
-				toInformatica.setRegSoft(rs.getString("registroSoftware"));
+	public ArrayList<ToInformatica> listarInformatica() throws ClassNotFoundException {
+		ToInformatica toInformatica;
+		ArrayList<ToInformatica> lista = new ArrayList<>();
+		String sqlSelect = "SELECT *  FROM INFORMATICA";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao(); 
+				PreparedStatement stm = conn.prepareStatement(sqlSelect);) {
+			try (ResultSet rs = stm.executeQuery();) {
+				while(rs.next()) {
+					toInformatica = new ToInformatica();
 
-			} 
 
-			FabricaConexao.fechaConexao(conn, pstm, rs);
+					toInformatica.setId(rs.getInt("cod_Informatica"));
+					toInformatica.setNome(rs.getString("nome"));
+					toInformatica.setDataInicio(rs.getDate("dataInicio")); 
+					toInformatica.setDataTermino(rs.getDate("dataTermino"));								
+					toInformatica.setHorario(rs.getString("horario"));
+					toInformatica.setVagas(rs.getString("numeroVagas"));
+					toInformatica.setValor(rs.getDouble("valor"));
+					toInformatica.setNumLab(rs.getString("numeroLaboratorio"));
+					toInformatica.setRegSoft(rs.getString("registroSoftware"));
 
-		} catch (Exception e) {
+					lista.add(toInformatica);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException e1) {
+			System.out.print(e1.getStackTrace());
+		}
+		return lista;
+	}
 
-			JOptionPane.showMessageDialog(null, "Erro ao listar curso" + e.getMessage());
 
-		} 
+	public ArrayList<ToInformatica> listarInformatica(String chave) throws ClassNotFoundException {
+		ToInformatica toInformatica;
+		ArrayList<ToInformatica> lista = new ArrayList<>();
+		String sqlSelect = "SELECT * FROM INFORMATICA WHERE UPPER (NOME) LIKE ?";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao();
+				PreparedStatement stm = conn.prepareStatement(sqlSelect);) {
+			stm.setString(1, "%" + chave.toUpperCase() + "%");
+			try (ResultSet rs = stm.executeQuery();) {
+				while(rs.next()) {
+					toInformatica = new ToInformatica();
 
-		return toInformatica;
 
-	} 
+					toInformatica.setId(rs.getInt("cod_Informatica"));
+					toInformatica.setNome(rs.getString("nome"));
+					toInformatica.setDataInicio(rs.getDate("dataInicio")); 
+					toInformatica.setDataTermino(rs.getDate("dataTermino"));								
+					toInformatica.setHorario(rs.getString("horario"));
+					toInformatica.setVagas(rs.getString("numeroVagas"));
+					toInformatica.setValor(rs.getDouble("valor"));
+					toInformatica.setNumLab(rs.getString("numeroLaboratorio"));
+					toInformatica.setRegSoft(rs.getString("registroSoftware"));
+
+
+					lista.add(toInformatica);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException e1) {
+			System.out.print(e1.getStackTrace());
+		}
+		return lista;
+	}
+
+
+
 
 
 

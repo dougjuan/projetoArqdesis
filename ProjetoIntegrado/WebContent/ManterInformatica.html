@@ -1,83 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
+
 <head>
-<meta charset="UTF-8">
-<title>Cadastro de Informática</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cerveja.biz - Criar Informática</title>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
 </head>
+
 <body>
-	<h3>Cadastro de Informática</h3>
-	<form method="post" action="manter_informatica.do">
+	<!-- Barra superior com os menus de navegação -->
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">cerveja.biz</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="listar_alunos.html">Alunos</a></li>
+					<li><a href="listar_artes.html">Artes</a></li>
+					<li><a href="listar_informatica.html">Informática</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 
-		<table>
-		<tr>
-				<td>ID:</td>
-				<td><input type="number" name="id" size="40"> <br /></td>
-			</tr>
-			<tr>
-				<td>Nome:</td>
-				<td><input type="text" name="nome" size="40"> <br /></td>
-			</tr>
-			
-			
-			<tr>
-				<td>Data Início:</td>
-				<td>
-				
-				<input type="number" name="diaInicio" size="9" maxlength="2" value="00"> 
-				<input type="number" name="mesInicio" size="9" maxlength="2" value="00"> 
-				<input type="number" name="anoInicio" size="9" maxlength="4" value="0000"> 
-				
-				</td>
-			</tr>
-			
-			
-		<tr>
-				<td>Data Término:</td>
-				<td>
-				
-				<input type="number" name="diaTermino" size="9" maxlength="2" value="00"> 
-				<input type="number" name="mesTermino" size="9" maxlength="2" value="00"> 
-				<input type="number" name="anoTermino" size="9" maxlength="4" value="0000"> 
-				
-				</td>
-			</tr>
-			
-			
-			
-			<tr>
-				<td>Horário:</td>
-				<td><input type="text" name="horario" size="40"> <br /></td>
-			</tr>
-			<tr>
-				<td>Vagas:</td>
-				<td><input type="text" name="vagas" size="40"> <br /></td>
-			</tr>
 
-			<tr>
-				<td>Valor:</td>
-				<td><input type="text" name="valor" size="40"> <br /></td>
-			</tr>
 
-			<tr>
-				<td>Número Laboratório:</td>
-				<td><input type="text" name="numLab" size="40"> <br /></td>
-			</tr>
 
-			<tr>
-				<td>Registro de Software:</td>
-				<td><input type="text" name="regSoft" size="40"> <br /></td>
-			</tr>
+	<!-- Container Principal -->
+	<div id="main" class="container">
+		<h3 class="page-header">Incluir Informática</h3>
+		<!-- Formulario para inclusao de clientes -->
+		<form action="manter_informatica.do" method="post">
 
-		<tr>
-			
-			<td><input type="submit" name="acao" value="Inserir">
-			<input type="submit" name="acao" value="Atualizar">
-			<input type="submit" name="acao" value="Carregar"> 
-			<input type="submit" name="acao" value="Excluir"></td>
-		
-		</tr>
-		</table>
+			<!-- area de campos do form -->
 
-	</form>
+
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="nome">Nome</label> <input type="text"
+						class="form-control" name="nome" id="nome" required
+						maxlength="100" placeholder="nome completo">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="dataInicio">Data início</label> <input type="text"
+						class="form-control" name="dataInicio" id="dataInicio" required
+						maxlength="100" placeholder="data início formato: yyyy-MM-dd">
+						
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="dataTermino">Data término</label> <input type="text"
+						class="form-control" name="dataTermino" id="dataTermino" required
+						maxlength="100" placeholder="data término formato: yyyy-MM-dd">
+						
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="horario">Horário</label> <input type="text"
+						class="form-control" name="horario" id="horario" required
+						maxlength="100" placeholder="horario">
+					
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="vagas">Vagas</label> <input type="text" class="form-control"
+						name="vagas" id="vagas" required maxlength="100" placeholder="vagas">
+						
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="valor">Valor</label> <input type="number"
+						class="form-control" name="valor" id="valor" required maxlength="100"
+						placeholder="valor">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="numLab">Número laboratório</label> <input type="text"
+						class="form-control" name="numLab" id="numLab" required
+						maxlength="100" placeholder="número laboratório">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="regSoft">Registro de software</label> <input type="text"
+						class="form-control" name="regSoft" id="regSoft" required
+						maxlength="100" placeholder="registro de software">
+				</div>
+			</div>
+
+
+			<hr />
+			<div id="actions" class="row">
+				<div class="col-md-12">
+
+					<button type="submit" class="btn btn-primary" name="acao"
+						value="Inserir">Inserir</button>
+
+					<a href="index.html" class="btn btn-default">Cancelar</a>
+
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 </body>
+
 </html>

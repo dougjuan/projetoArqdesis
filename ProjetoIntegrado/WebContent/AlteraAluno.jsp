@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="To.ToAluno"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -5,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>cerveja.biz - Criar Artes</title>
+<title>cerveja.biz - Alterar Cliente</title>
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
@@ -34,99 +37,96 @@
 			</div>
 		</div>
 	</nav>
-
-
-
+	<%ToAluno toAluno = (ToAluno)request.getAttribute("alunoTO"); %>
 
 	<!-- Container Principal -->
 	<div id="main" class="container">
-		<h3 class="page-header">Incluir Artes</h3>
-		<!-- Formulario para inclusao de clientes -->
-		<form action="manter_artes.do" method="post">
-
+		<h3 class="page-header">
+			Alterar Aluno #<%=toAluno.getId() %></h3>
+		<!-- Formulario para alteração de clientes -->
+		<form action="manter_aluno.do" method="post">
 			<!-- area de campos do form -->
+			<input type="hidden" name="id" value="<%=toAluno.getId() %>" />
 
 
 			<div class="row">
 				<div class="form-group col-md-12">
 					<label for="nome">Nome</label> <input type="text"
 						class="form-control" name="nome" id="nome" required
-						maxlength="100" placeholder="nome completo">
+						maxlength="100" placeholder="nome completo"
+						value="<%=toAluno.getNome()%>">
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label for="dataInicio">Data início</label> <input type="text"
-						class="form-control" name="dataInicio" id="dataInicio" required
-						maxlength="100" placeholder="data início formato: yyyy-MM-dd">
-						
+					<label for="endereco">Endereço</label> <input type="text"
+						class="form-control" name="endereco" id="endereco" required
+						maxlength="100" placeholder="endereço"
+						value="<%=toAluno.getEndereco()%>">
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label for="dataTermino">Data término</label> <input type="text"
-						class="form-control" name="dataTermino" id="dataTermino" required
-						maxlength="100" placeholder="data término formato: yyyy-MM-dd">
-						
-				</div>
-			</div>
-
-
-			<div class="row">
-				<div class="form-group col-md-12">
-					<label for="horario">Horário</label> <input type="text"
-						class="form-control" name="horario" id="horario" required
-						maxlength="100" placeholder="horario">
-					
+					<label for="telefone">Telefone</label> <input type="text"
+						class="form-control" name="telefone" id="telefone" required
+						maxlength="100" placeholder="telefone"
+						value="<%=toAluno.getTelefone()%>">
 				</div>
 			</div>
 
 
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label for="vagas">Vagas</label> <input type="text" class="form-control"
-						name="vagas" id="vagas" required maxlength="100" placeholder="vagas">
-						
+					<label for="email">Email</label> <input type="text"
+						class="form-control" name="email" id="email" required
+						maxlength="100" placeholder="email"
+						value="<%=toAluno.getEmail()%>">
 				</div>
 			</div>
 
 
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label for="valor">Valor</label> <input type="number"
-						class="form-control" name="valor" id="valor" required maxlength="100"
-						placeholder="valor">
+					<label for="rg">Rg</label> <input type="text" class="form-control"
+						name="rg" id="rg" required maxlength="100" placeholder="rg"
+						value="<%=toAluno.getRg()%>">
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="cpf">Cpf</label> <input type="text"
+						class="form-control" name="cpf" id="cpf" required maxlength="100"
+						placeholder="cpf" value="<%=toAluno.getCpf()%>">
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label for="descMaterial">Descrição Material</label> <input type="text"
-						class="form-control" name="descMaterial" id="descMaterial" required
-						maxlength="100" placeholder="descMaterial">
+					<label for="login">Login</label> <input type="text"
+						class="form-control" name="login" id="login" required
+						maxlength="100" placeholder="login"
+						value="<%=toAluno.getLogin()%>">
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label for="livros">Livros</label> <input type="text"
-						class="form-control" name="livros" id="livros" required
-						maxlength="100" placeholder="livros">
+					<label for="senha">Senha</label> <input type="text"
+						class="form-control" name="senha" id="senha" required
+						maxlength="100" placeholder="senha"
+						value="<%=toAluno.getSenha()%>">
 				</div>
 			</div>
 
-
-			<hr />
 			<div id="actions" class="row">
 				<div class="col-md-12">
-
 					<button type="submit" class="btn btn-primary" name="acao"
-						value="Inserir">Inserir</button>
-
-					<a href="index.html" class="btn btn-default">Cancelar</a>
-
+						value="Editar">Salvar</button>
+					<a href="listar_alunos.html" class="btn btn-default">Cancelar</a>
 				</div>
 			</div>
 		</form>

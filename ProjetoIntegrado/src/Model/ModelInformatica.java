@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import java.util.ArrayList;
 import Dao.DaoInformatica;
 import To.ToInformatica;
 
@@ -131,14 +131,19 @@ public class ModelInformatica {
 
 
 		
-		public void criar() {
+		public void criar() throws ClassNotFoundException {
 
 			DaoInformatica dao = new DaoInformatica();		
 			ToInformatica toInformatica = getToInformatica();
 
 			dao.inserir(toInformatica); 	
-
+			this.id = toInformatica.getId();
+			
+			
 		}
+		
+
+		
 
 		public ToInformatica getToInformatica() {
 			ToInformatica toInformatica = new ToInformatica(); 
@@ -165,20 +170,22 @@ public class ModelInformatica {
 
 		}
 		
-		public void excluir(int id) {
+		public void excluir() {
 			DaoInformatica dao = new DaoInformatica();
 			ToInformatica toInformatica = new ToInformatica();
 			toInformatica.setId(id);
-			dao.remover(id);
+			dao.remover(toInformatica);
 		}
 		
-		public void carregar(int num) {
+		
+		
+		public void carregar() throws ClassNotFoundException {
 			
 			ToInformatica toInformatica = new ToInformatica();
 			
 			DaoInformatica dao = new DaoInformatica();
 			
-			toInformatica = dao.getInformaticaById(num);
+			toInformatica = dao.carregar(id);
 			
 			id = toInformatica.getId();
 			nome = toInformatica.getNome();
@@ -199,7 +206,7 @@ public class ModelInformatica {
 
 			java.sql.Date date = null;  
 			try {  
-				DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
 				date = new java.sql.Date( ((java.util.Date)formatter.parse(data)).getTime() );  
 			} catch (ParseException e) { 
 				throw e; 
@@ -207,6 +214,21 @@ public class ModelInformatica {
 			return date;  
 		}  
 
+		
+
+		public ArrayList<ToInformatica> listarInformatica() throws ClassNotFoundException{
+			ArrayList<ToInformatica> lista;
+			DaoInformatica dao = new DaoInformatica();
+			lista = dao.listarInformatica();
+			return lista;
+		}
+		public ArrayList<ToInformatica> listarInformatica(String chave) throws ClassNotFoundException{
+			ArrayList<ToInformatica> lista;
+			DaoInformatica dao = new DaoInformatica();
+			lista = dao.listarInformatica(chave);
+			return lista;
+		}
+		
 		
 		
 		

@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="To.ToArtes"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -5,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>cerveja.biz - Criar Artes</title>
+<title>cerveja.biz - Alterar Artes</title>
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
@@ -34,24 +37,25 @@
 			</div>
 		</div>
 	</nav>
-
-
-
+	
+	<%ToArtes toArtes = (ToArtes)request.getAttribute("artesTO"); %>
 
 	<!-- Container Principal -->
 	<div id="main" class="container">
-		<h3 class="page-header">Incluir Artes</h3>
-		<!-- Formulario para inclusao de clientes -->
+		<h3 class="page-header">
+			Alterar Artes #<%=toArtes.getId() %></h3>
+		<!-- Formulario para alteração de clientes -->
 		<form action="manter_artes.do" method="post">
-
 			<!-- area de campos do form -->
+			<input type="hidden" name="id" value="<%=toArtes.getId() %>" />
 
 
 			<div class="row">
 				<div class="form-group col-md-12">
 					<label for="nome">Nome</label> <input type="text"
 						class="form-control" name="nome" id="nome" required
-						maxlength="100" placeholder="nome completo">
+						maxlength="100" placeholder="nome completo"
+						value="<%=toArtes.getNome()%>">
 				</div>
 			</div>
 
@@ -59,8 +63,8 @@
 				<div class="form-group col-md-12">
 					<label for="dataInicio">Data início</label> <input type="text"
 						class="form-control" name="dataInicio" id="dataInicio" required
-						maxlength="100" placeholder="data início formato: yyyy-MM-dd">
-						
+						maxlength="100" placeholder="data início"
+						value="<%=toArtes.getDataInicio()%>">
 				</div>
 			</div>
 
@@ -68,8 +72,8 @@
 				<div class="form-group col-md-12">
 					<label for="dataTermino">Data término</label> <input type="text"
 						class="form-control" name="dataTermino" id="dataTermino" required
-						maxlength="100" placeholder="data término formato: yyyy-MM-dd">
-						
+						maxlength="100" placeholder="dataTermino"
+						value="<%=toArtes.getDataTermino()%>">
 				</div>
 			</div>
 
@@ -78,8 +82,8 @@
 				<div class="form-group col-md-12">
 					<label for="horario">Horário</label> <input type="text"
 						class="form-control" name="horario" id="horario" required
-						maxlength="100" placeholder="horario">
-					
+						maxlength="100" placeholder="horario"
+						value="<%=toArtes.getHorario()%>">
 				</div>
 			</div>
 
@@ -87,8 +91,8 @@
 			<div class="row">
 				<div class="form-group col-md-12">
 					<label for="vagas">Vagas</label> <input type="text" class="form-control"
-						name="vagas" id="vagas" required maxlength="100" placeholder="vagas">
-						
+						name="vagas" id="vagas" required maxlength="100" placeholder="vagas"
+						value="<%=toArtes.getVagas()%>">
 				</div>
 			</div>
 
@@ -97,7 +101,7 @@
 				<div class="form-group col-md-12">
 					<label for="valor">Valor</label> <input type="number"
 						class="form-control" name="valor" id="valor" required maxlength="100"
-						placeholder="valor">
+						placeholder="valor" value="<%=toArtes.getValor()%>">
 				</div>
 			</div>
 
@@ -105,7 +109,8 @@
 				<div class="form-group col-md-12">
 					<label for="descMaterial">Descrição Material</label> <input type="text"
 						class="form-control" name="descMaterial" id="descMaterial" required
-						maxlength="100" placeholder="descMaterial">
+						maxlength="100" placeholder="descMaterial"
+						value="<%=toArtes.getDescMat()%>">
 				</div>
 			</div>
 
@@ -113,20 +118,16 @@
 				<div class="form-group col-md-12">
 					<label for="livros">Livros</label> <input type="text"
 						class="form-control" name="livros" id="livros" required
-						maxlength="100" placeholder="livros">
+						maxlength="100" placeholder="livros"
+						value="<%=toArtes.getLivros()%>">
 				</div>
 			</div>
 
-
-			<hr />
 			<div id="actions" class="row">
 				<div class="col-md-12">
-
 					<button type="submit" class="btn btn-primary" name="acao"
-						value="Inserir">Inserir</button>
-
-					<a href="index.html" class="btn btn-default">Cancelar</a>
-
+						value="Editar">Salvar</button>
+					<a href="listar_artes.html" class="btn btn-default">Cancelar</a>
 				</div>
 			</div>
 		</form>

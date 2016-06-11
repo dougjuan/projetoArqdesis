@@ -3,262 +3,191 @@ package Dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JOptionPane;
-
-
-
-
 import ConnectionFactory.FabricaConexao;
-import Model.ModelArtes;
 import To.ToArtes;
 
 
 public class DaoArtes {
-	
 
-	private final String INSERT = "INSERT INTO ARTES (NOME, DATAINICIO, DATATERMINO, HORARIO, NUMEROVAGAS, VALOR, descMaterial, NOMELIVRO) VALUES (?,?,?,?,?,?,?,?)"; 
-	private final String UPDATE = "UPDATE ARTES SET NOME = ?, DATAINICIO= ?, DATATERMINO = ?, HORARIO= ?, NUMEROVAGAS= ?, VALOR= ?, descMaterial = ?, NOMELIVRO = ? WHERE COD_ARTES = ?";
-	private final String DELETE = "DELETE FROM ARTES WHERE COD_ARTES =?";
-	private final String LIST = "SELECT * FROM ARTES";
-	private final String LISTBYID = "SELECT * FROM ARTES WHERE COD_ARTES=?"; 
-	private final String LISTBYNOME = "SELECT * FROM ARTES WHERE NOME=?"; 
-	private final String LISTBYVAGAS = "SELECT * FROM ARTES WHERE NUMEROVAGAS=?"; 
+	public void inserir(ToArtes toArtes) throws ClassNotFoundException {
+
+		String sqlInsert = "INSERT INTO ARTES (NOME, DATAINICIO, DATATERMINO, HORARIO, NUMEROVAGAS, VALOR, DESCMATERIAL, NOMELIVRO) VALUES (?,?,?,?,?,?,?,?)";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao(); 
+				PreparedStatement stm = conn.prepareStatement(sqlInsert);) {
 
 
-	public void inserir(ToArtes toArtes) { 
-
-		if (toArtes != null) { 
-
-			Connection conn = null; 
-
-			try { 
-
-				conn = FabricaConexao.getConexao();
-				PreparedStatement pstm;				
-				pstm = conn.prepareStatement(INSERT);
-			
-				pstm.setString(1,toArtes.getNome());
-				pstm.setDate(2,toArtes.getDataInicio());
-				pstm.setDate(3,toArtes.getDataTermino());
-				pstm.setString(4,toArtes.getHorario());
-				pstm.setString(5,toArtes.getVagas());
-				pstm.setDouble(6,toArtes.getValor());
-				pstm.setString(7,toArtes.getDescMat());
-				pstm.setString(8,toArtes.getLivros());
+			stm.setString(1,toArtes.getNome());
+			stm.setDate(2,toArtes.getDataInicio());
+			stm.setDate(3,toArtes.getDataTermino());
+			stm.setString(4,toArtes.getHorario());
+			stm.setString(5,toArtes.getVagas());
+			stm.setDouble(6,toArtes.getValor());
+			stm.setString(7,toArtes.getDescMat());
+			stm.setString(8,toArtes.getLivros());
 
 
+			stm.execute();
 
-				pstm.execute();
-				JOptionPane.showMessageDialog(null, "Curso cadastrado com sucesso"); 
-				FabricaConexao.fechaConexao(conn, pstm); 
-			} catch (Exception e){
-				
-				JOptionPane.showMessageDialog(null,"Preencha os campos corretamente!");
-			
+			String sqlSelect = "SELECT LAST_INSERT_ID()";
+
+			try(PreparedStatement stm1 = conn.prepareStatement(sqlSelect);
+					ResultSet rs = stm1.executeQuery();){
+				if(rs.next()){
+					toArtes.setId(rs.getInt(1));
+				}
 			}
-		} else {
-			System.out.println("O curso enviado por parâmetro está vazio");
-		} 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
+
+
 	public void atualizar(ToArtes toArtes) {
+		String sqlUpdate = "UPDATE ARTES SET NOME = ?, DATAINICIO= ?, DATATERMINO = ?, HORARIO= ?, NUMEROVAGAS= ?, VALOR= ?, DESCMATERIAL = ?, NOMELIVRO = ? WHERE COD_ARTES = ?";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao(); 
+				PreparedStatement stm = conn.prepareStatement(sqlUpdate);) {
 
-		if (toArtes != null) { 
-
-			Connection conn = null;
-
-			try { 
-
-				conn = FabricaConexao.getConexao();
-				PreparedStatement pstm; 
-				pstm = conn.prepareStatement(UPDATE);
-				
-
-				pstm.setString(1,toArtes.getNome());
-				pstm.setDate(2,toArtes.getDataInicio());
-				pstm.setDate(3,toArtes.getDataTermino());
-				pstm.setString(4,toArtes.getHorario());
-				pstm.setString(5,toArtes.getVagas());
-				pstm.setDouble(6,toArtes.getValor());
-				pstm.setString(7,toArtes.getDescMat());
-				pstm.setString(8,toArtes.getLivros());
-				pstm.setInt(9,toArtes.getId());
+			stm.setString(1,toArtes.getNome());
+			stm.setDate(2,toArtes.getDataInicio());
+			stm.setDate(3,toArtes.getDataTermino());
+			stm.setString(4,toArtes.getHorario());
+			stm.setString(5,toArtes.getVagas());
+			stm.setDouble(6,toArtes.getValor());
+			stm.setString(7,toArtes.getDescMat());
+			stm.setString(8,toArtes.getLivros());
+			stm.setInt(9,toArtes.getId());
 
 
-				pstm.execute(); 
+			stm.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-				JOptionPane.showMessageDialog(null, "Curso alterado com sucesso"); 
+	public void remover(ToArtes toArtes) {
+		String sqlDelete = "DELETE FROM ARTES WHERE COD_ARTES =?";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao(); 
+				PreparedStatement stm = conn.prepareStatement(sqlDelete);) {
 
-				FabricaConexao.fechaConexao(conn);
+			stm.setInt(1, toArtes.getId());
 
-			} catch (Exception e) { 
+			stm.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-				JOptionPane.showMessageDialog(null, "Preencha os dados corretamente");
+	public ToArtes carregar(int id) throws ClassNotFoundException {
+		ToArtes toArtes = new ToArtes();
+		toArtes.setId(id);
+		String sqlSelect = "SELECT * FROM ARTES WHERE COD_ARTES=?";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao(); 
+				PreparedStatement stm = conn.prepareStatement(sqlSelect);) {
+			stm.setInt(1, id);
+			try (ResultSet rs = stm.executeQuery();) {
+				if (rs.next()) {
 
+					toArtes.setId(rs.getInt("cod_Artes"));
+					toArtes.setNome(rs.getString("nome"));
+					toArtes.setDataInicio(rs.getDate("dataInicio")); 
+					toArtes.setDataTermino(rs.getDate("dataTermino"));								
+					toArtes.setHorario(rs.getString("horario"));
+					toArtes.setVagas(rs.getString("numeroVagas"));
+					toArtes.setValor(rs.getDouble("valor"));
+					toArtes.setDescMat(rs.getString("descMaterial"));
+					toArtes.setLivros(rs.getString("nomeLivro"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-
-		} else {
-
-			JOptionPane.showMessageDialog(null, "O curso enviado por parâmetro está vazio"); 
-
+		} catch (SQLException e1) {
+			System.out.print(e1.getStackTrace());
 		}
+		return toArtes;
 	}
-	public void remover(int id) { 
-		Connection conn = null;
-		try {
-			conn = FabricaConexao.getConexao();
-			PreparedStatement pstm; 
-			pstm = conn.prepareStatement(DELETE);
-			pstm.setInt(1, id);
-			pstm.execute();
-			FabricaConexao.fechaConexao(conn, pstm);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao excluir curso do banco de" + "dados " + e.getMessage()); 
+
+
+
+
+	public ArrayList<ToArtes> listarArtes() throws ClassNotFoundException {
+		ToArtes toArtes;
+		ArrayList<ToArtes> lista = new ArrayList<>();
+		String sqlSelect = "SELECT *  FROM ARTES";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao(); 
+				PreparedStatement stm = conn.prepareStatement(sqlSelect);) {
+			try (ResultSet rs = stm.executeQuery();) {
+				while(rs.next()) {
+					toArtes = new ToArtes();
+
+
+					toArtes.setId(rs.getInt("cod_Artes"));
+					toArtes.setNome(rs.getString("nome"));
+					toArtes.setDataInicio(rs.getDate("dataInicio")); 
+					toArtes.setDataTermino(rs.getDate("dataTermino"));								
+					toArtes.setHorario(rs.getString("horario"));
+					toArtes.setVagas(rs.getString("numeroVagas"));
+					toArtes.setValor(rs.getDouble("valor"));
+					toArtes.setDescMat(rs.getString("descMaterial"));
+					toArtes.setLivros(rs.getString("nomeLivro"));
+
+
+					lista.add(toArtes);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException e1) {
+			System.out.print(e1.getStackTrace());
 		}
+		return lista;
 	}
-	public List<ToArtes> getArtes() { 
-		Connection conn = null;
-		PreparedStatement pstm = null; 
-		ResultSet rs = null; 
-		ArrayList<ToArtes> arrayArtes = new ArrayList<ToArtes>(); 
-		try { 
-			conn = FabricaConexao.getConexao();
-			pstm = conn.prepareStatement(LIST); 
-			rs = pstm.executeQuery(); 
-			while (rs.next()) {
-				ToArtes toArtes = new ToArtes();
-	
-				toArtes.setId(rs.getInt("cod_Artes"));
-				toArtes.setNome(rs.getString("nome"));
-				toArtes.setDataInicio(rs.getDate("dataInicio")); 
-				toArtes.setDataTermino(rs.getDate("dataTermino"));								
-				toArtes.setHorario(rs.getString("horario"));
-				toArtes.setVagas(rs.getString("numeroVagas"));
-				toArtes.setValor(rs.getDouble("valor"));
-				toArtes.setDescMat(rs.getString("descMaterial"));
-				toArtes.setLivros(rs.getString("nomeLivro"));
 
-				arrayArtes.add(toArtes); 
-			} 
-			FabricaConexao.fechaConexao(conn, pstm, rs);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao listar curso" + e.getMessage());
+
+
+	public ArrayList<ToArtes> listarArtes(String chave) throws ClassNotFoundException {
+		ToArtes toArtes;
+		ArrayList<ToArtes> lista = new ArrayList<>();
+		String sqlSelect = "SELECT * FROM ARTES WHERE UPPER (NOME) LIKE ?";
+		// usando o try with resources do Java 7, que fecha o que abriu
+		try (Connection conn = FabricaConexao.getConexao();
+				PreparedStatement stm = conn.prepareStatement(sqlSelect);) {
+			stm.setString(1, "%" + chave.toUpperCase() + "%");
+			try (ResultSet rs = stm.executeQuery();) {
+				while(rs.next()) {
+					toArtes = new ToArtes();
+
+
+					toArtes.setId(rs.getInt("cod_Artes"));
+					toArtes.setNome(rs.getString("nome"));
+					toArtes.setDataInicio(rs.getDate("dataInicio")); 
+					toArtes.setDataTermino(rs.getDate("dataTermino"));								
+					toArtes.setHorario(rs.getString("horario"));
+					toArtes.setVagas(rs.getString("numeroVagas"));
+					toArtes.setValor(rs.getDouble("valor"));
+					toArtes.setDescMat(rs.getString("descMaterial"));
+					toArtes.setLivros(rs.getString("nomeLivro"));
+
+
+					lista.add(toArtes);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException e1) {
+			System.out.print(e1.getStackTrace());
 		}
-		return arrayArtes;
-	} 
-	public ToArtes getArtesById(int id) { 
-		Connection conn = null;
-		PreparedStatement pstm = null;
-		ResultSet rs = null; 
-		ToArtes toArtes = new ToArtes();
-		try { 
-			conn = FabricaConexao.getConexao(); 
-			pstm = conn.prepareStatement(LISTBYID); 
-			pstm.setInt(1, id);
-			rs = pstm.executeQuery(); 
-			while (rs.next()) { 
-				
+		return lista;
+	}
 
-				toArtes.setId(rs.getInt("cod_Artes"));
-				toArtes.setNome(rs.getString("nome"));
-				toArtes.setDataInicio(rs.getDate("dataInicio")); 
-				toArtes.setDataTermino(rs.getDate("dataTermino"));								
-				toArtes.setHorario(rs.getString("horario"));
-				toArtes.setVagas(rs.getString("numeroVagas"));
-				toArtes.setValor(rs.getDouble("valor"));
-				toArtes.setDescMat(rs.getString("descMaterial"));
-				toArtes.setLivros(rs.getString("nomeLivro"));
-			
-			} 
 
-			FabricaConexao.fechaConexao(conn, pstm, rs);
 
-		} catch (Exception e) {
-
-			JOptionPane.showMessageDialog(null, "Erro ao listar curso" + e.getMessage());
-
-		} 
-
-		return toArtes;
-
-	} 
-	public ToArtes getArtesByNome(String nome) { 
-		Connection conn = null;
-		PreparedStatement pstm = null;
-		ResultSet rs = null; 
-		ToArtes toArtes = new ToArtes();
-		try { 
-			conn = FabricaConexao.getConexao(); 
-			pstm = conn.prepareStatement(LISTBYNOME); 
-			pstm.setString(1, nome);
-			rs = pstm.executeQuery(); 
-			while (rs.next()) { 
-				
-
-				toArtes.setId(rs.getInt("cod_Artes"));
-				toArtes.setNome(rs.getString("nome"));
-				toArtes.setDataInicio(rs.getDate("dataInicio")); 
-				toArtes.setDataTermino(rs.getDate("dataTermino"));								
-				toArtes.setHorario(rs.getString("horario"));
-				toArtes.setVagas(rs.getString("numeroVagas"));
-				toArtes.setValor(rs.getDouble("valor"));
-				toArtes.setDescMat(rs.getString("descMaterial"));
-				toArtes.setLivros(rs.getString("nomeLivro"));
-			
-			} 
-
-			FabricaConexao.fechaConexao(conn, pstm, rs);
-
-		} catch (Exception e) {
-
-			JOptionPane.showMessageDialog(null, "Erro ao listar curso" + e.getMessage());
-
-		} 
-
-		return toArtes;
-
-	} 
-	
-	public ToArtes getArtesByVagas(String vagas) { 
-		Connection conn = null;
-		PreparedStatement pstm = null;
-		ResultSet rs = null; 
-		ToArtes toArtes = new ToArtes();
-		try { 
-			conn = FabricaConexao.getConexao(); 
-			pstm = conn.prepareStatement(LISTBYVAGAS); 
-			pstm.setString(1, vagas);
-			rs = pstm.executeQuery(); 
-			while (rs.next()) { 
-				
-
-				toArtes.setId(rs.getInt("cod_Artes"));
-				toArtes.setNome(rs.getString("nome"));
-				toArtes.setDataInicio(rs.getDate("dataInicio")); 
-				toArtes.setDataTermino(rs.getDate("dataTermino"));								
-				toArtes.setHorario(rs.getString("horario"));
-				toArtes.setVagas(rs.getString("numeroVagas"));
-				toArtes.setValor(rs.getDouble("valor"));
-				toArtes.setDescMat(rs.getString("descMaterial"));
-				toArtes.setLivros(rs.getString("nomeLivro"));
-			
-			} 
-
-			FabricaConexao.fechaConexao(conn, pstm, rs);
-
-		} catch (Exception e) {
-
-			JOptionPane.showMessageDialog(null, "Erro ao listar curso" + e.getMessage());
-
-		} 
-
-		return toArtes;
-
-	} 
-
-	
 
 
 }

@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="To.ToInformatica"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -5,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>cerveja.biz - Criar Artes</title>
+<title>cerveja.biz - Alterar Informatica</title>
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
@@ -34,24 +37,25 @@
 			</div>
 		</div>
 	</nav>
-
-
-
+	
+	<%ToInformatica toInformatica = (ToInformatica)request.getAttribute("informaticaTO"); %>
 
 	<!-- Container Principal -->
 	<div id="main" class="container">
-		<h3 class="page-header">Incluir Artes</h3>
-		<!-- Formulario para inclusao de clientes -->
-		<form action="manter_artes.do" method="post">
-
+		<h3 class="page-header">
+			Alterar Informática #<%=toInformatica.getId() %></h3>
+		<!-- Formulario para alteração de clientes -->
+		<form action="manter_informatica.do" method="post">
 			<!-- area de campos do form -->
+			<input type="hidden" name="id" value="<%=toInformatica.getId() %>" />
 
 
 			<div class="row">
 				<div class="form-group col-md-12">
 					<label for="nome">Nome</label> <input type="text"
 						class="form-control" name="nome" id="nome" required
-						maxlength="100" placeholder="nome completo">
+						maxlength="100" placeholder="nome completo"
+						value="<%=toInformatica.getNome()%>">
 				</div>
 			</div>
 
@@ -59,8 +63,8 @@
 				<div class="form-group col-md-12">
 					<label for="dataInicio">Data início</label> <input type="text"
 						class="form-control" name="dataInicio" id="dataInicio" required
-						maxlength="100" placeholder="data início formato: yyyy-MM-dd">
-						
+						maxlength="100" placeholder="data início"
+						value="<%=toInformatica.getDataInicio()%>">
 				</div>
 			</div>
 
@@ -68,8 +72,8 @@
 				<div class="form-group col-md-12">
 					<label for="dataTermino">Data término</label> <input type="text"
 						class="form-control" name="dataTermino" id="dataTermino" required
-						maxlength="100" placeholder="data término formato: yyyy-MM-dd">
-						
+						maxlength="100" placeholder="dataTermino"
+						value="<%=toInformatica.getDataTermino()%>">
 				</div>
 			</div>
 
@@ -78,8 +82,8 @@
 				<div class="form-group col-md-12">
 					<label for="horario">Horário</label> <input type="text"
 						class="form-control" name="horario" id="horario" required
-						maxlength="100" placeholder="horario">
-					
+						maxlength="100" placeholder="horario"
+						value="<%=toInformatica.getHorario()%>">
 				</div>
 			</div>
 
@@ -87,8 +91,8 @@
 			<div class="row">
 				<div class="form-group col-md-12">
 					<label for="vagas">Vagas</label> <input type="text" class="form-control"
-						name="vagas" id="vagas" required maxlength="100" placeholder="vagas">
-						
+						name="vagas" id="vagas" required maxlength="100" placeholder="vagas"
+						value="<%=toInformatica.getVagas()%>">
 				</div>
 			</div>
 
@@ -97,36 +101,33 @@
 				<div class="form-group col-md-12">
 					<label for="valor">Valor</label> <input type="number"
 						class="form-control" name="valor" id="valor" required maxlength="100"
-						placeholder="valor">
+						placeholder="valor" value="<%=toInformatica.getValor()%>">
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label for="descMaterial">Descrição Material</label> <input type="text"
-						class="form-control" name="descMaterial" id="descMaterial" required
-						maxlength="100" placeholder="descMaterial">
+					<label for="numLab">Número Laboratório</label> <input type="text"
+						class="form-control" name="numLab" id="numLab" required
+						maxlength="100" placeholder="número laboratório"
+						value="<%=toInformatica.getNumLab()%>">
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label for="livros">Livros</label> <input type="text"
-						class="form-control" name="livros" id="livros" required
-						maxlength="100" placeholder="livros">
+					<label for="regSoft">Registro de Software</label> <input type="text"
+						class="form-control" name="regSoft" id="regSoft" required
+						maxlength="100" placeholder="registro de software"
+						value="<%=toInformatica.getRegSoft()%>">
 				</div>
 			</div>
 
-
-			<hr />
 			<div id="actions" class="row">
 				<div class="col-md-12">
-
 					<button type="submit" class="btn btn-primary" name="acao"
-						value="Inserir">Inserir</button>
-
-					<a href="index.html" class="btn btn-default">Cancelar</a>
-
+						value="Editar">Salvar</button>
+					<a href="listar_informatica.html" class="btn btn-default">Cancelar</a>
 				</div>
 			</div>
 		</form>

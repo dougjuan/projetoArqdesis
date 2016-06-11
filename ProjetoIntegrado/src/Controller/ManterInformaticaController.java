@@ -1,9 +1,10 @@
 package Controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.sql.Date;
-import java.text.ParseException;
+
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,10 +12,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.JOptionPane;
+
 
 import Model.ModelArtes;
 import Model.ModelInformatica;
+
+import To.ToInformatica;
 
 /**
  * Servlet implementation class ManterInformaticaController
@@ -45,122 +48,122 @@ public class ManterInformaticaController extends HttpServlet {
 
 
 		String pAcao = request.getParameter("acao");
-		
+
 		String pId = request.getParameter("id");
 		String pNome = request.getParameter("nome");
-		String pDiaInicio = request.getParameter("diaInicio");
-		String pMesInicio = request.getParameter("mesInicio");
-		String pAnoInicio = request.getParameter("anoInicio");
-		String pDiaTermino = request.getParameter("diaTermino");
-		String pMesTermino = request.getParameter("mesTermino");
-		String pAnoTermino = request.getParameter("anoTermino");
+		String pDataInicio = request.getParameter("dataInicio");
+		String pDataTermino = request.getParameter("dataTermino");
 		String pHorario = request.getParameter("horario");
 		String pVagas = request.getParameter("vagas");
 		String pValor = request.getParameter("valor");
 		String pNumLab = request.getParameter("numLab");
 		String pRegSoft = request.getParameter("regSoft");
 
-		ModelInformatica modelInformatica = new ModelInformatica();
-		
-		int id = Integer.parseInt(pId);
+
+		int id = -1;
+		try {
+			id = Integer.parseInt(pId);
+		} catch (NumberFormatException e) {
+
+		}		
+
+
+		Date dataInicio = null;
+		try {
+			dataInicio = ModelArtes.formataData(pDataInicio);
+		} catch (Exception e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		Date dataTermino = null;
+		try {
+			dataTermino = ModelArtes.formataData(pDataTermino);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		double valorD = 0.0;
+
+		try {
+
+			valorD = Double.parseDouble(pValor);
+
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+
+		ModelInformatica modelInformatica = new ModelInformatica(id,pNome,dataInicio,dataTermino,pHorario,pVagas,valorD,pNumLab,pRegSoft);
+
+		RequestDispatcher view = null;	
+
 
 		if(pAcao.equals("Inserir")){
 
-
-			String pDataInicio = pDiaInicio+"/"+pMesInicio+"/"+pAnoInicio;
-
-			String pDataTermino = pDiaTermino+"/"+pMesTermino+"/"+pAnoTermino;
-
-			Date dataInicioD = null;
-
 			try {
-				dataInicioD = ModelArtes.formataData(pDataInicio);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
+				modelInformatica.criar();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			Date dataTerminoD = null;
-			try {
-				dataTerminoD = ModelArtes.formataData(pDataTermino);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			double valorD = 0.0;
-
-			valorD = Double.parseDouble(pValor);
+			ArrayList<ToInformatica> lista = new ArrayList<>();
+			lista.add(modelInformatica.getToInformatica());
+			request.setAttribute("lista", lista);
+			view = request.getRequestDispatcher("ListarInformatica.jsp");
 
 
-			modelInformatica.setId(id);
-			modelInformatica.setNome(pNome);
-			modelInformatica.setDataInicio(dataInicioD);
-			modelInformatica.setDataTermino(dataTerminoD);
-			modelInformatica.setHorario(pHorario);
-			modelInformatica.setVagas(pVagas);
-			modelInformatica.setValor(valorD);
-			modelInformatica.setNumLab(pNumLab);
-			modelInformatica.setRegSoft(pRegSoft);
 
-
-			modelInformatica.criar();	
-			
 		}else if(pAcao.equals("Excluir")){
 
-			modelInformatica.excluir(id);		
-		
+
+			modelInformatica.excluir();	
+			view = request.getRequestDispatcher("listar_informatica.html");
+
+
 
 		}else if (pAcao.equals("Atualizar")){
-			
-					
-			String pDataInicio = pDiaInicio+"/"+pMesInicio+"/"+pAnoInicio;
 
-			String pDataTermino = pDiaTermino+"/"+pMesTermino+"/"+pAnoTermino;
-
-			Date dataInicioD = null;
-
+			//ESSE QUE ALTERA
 			try {
-				dataInicioD = ModelArtes.formataData(pDataInicio);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
+				modelInformatica.carregar();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-			Date dataTerminoD = null;
+			request.setAttribute("informaticaTO", modelInformatica.getToInformatica());
+			view = request.getRequestDispatcher("AlteraInformatica.jsp");		
+
+
+		}else if (pAcao.equals("Carregar")){
+
 			try {
-				dataTerminoD = ModelArtes.formataData(pDataTermino);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
+				modelInformatica.carregar();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			double valorD = 0.0;
-
-			valorD = Double.parseDouble(pValor);
+			request.setAttribute("informaticaTO",modelInformatica.getToInformatica() );
+			view = request.getRequestDispatcher("VisualizarInformatica.jsp");
 
 
-			modelInformatica.setId(id);
-			modelInformatica.setNome(pNome);
-			modelInformatica.setDataInicio(dataInicioD);
-			modelInformatica.setDataTermino(dataTerminoD);
-			modelInformatica.setHorario(pHorario);
-			modelInformatica.setVagas(pVagas);
-			modelInformatica.setValor(valorD);
-			modelInformatica.setNumLab(pNumLab);
-			modelInformatica.setRegSoft(pRegSoft);
+		}else if (pAcao.equals("Editar")){
+
+			//ESSE VISUALIZA
+
 			modelInformatica.atualizar();
-			
+			request.setAttribute("informaticaTO",modelInformatica.getToInformatica() );
+			view = request.getRequestDispatcher("VisualizarInformatica.jsp");
+
+
 		}
-		
-		modelInformatica.carregar(id);
-		request.setAttribute("informaticaTO",modelInformatica.getToInformatica() );
-		RequestDispatcher dispatcher = request.getRequestDispatcher("InformaticaCadastrado.jsp");
-		dispatcher.forward(request, response);
+
+		view.forward(request, response);
+
+
 
 
 

@@ -1,15 +1,11 @@
 package Model;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
-import javax.swing.JOptionPane;
-
+import java.util.ArrayList;
 import Dao.DaoAluno;
-import Dao.DaoArtes;
 import To.ToAluno;
-import To.ToArtes;
+
+
 
 
 public class ModelAluno {
@@ -17,20 +13,21 @@ public class ModelAluno {
 	private String nome, endereco, telefone, email, rg, cpf, login, senha;
 	private int id;
 
+	
 	public ModelAluno(){
-
+		
 		id = 0;
 		nome = "";
 		endereco = "";
 		telefone = "";
-		email = "";	
+		email = "";
 		rg = "";
 		cpf = "";
 		login = "";
 		senha = "";
-
+		
 	}
-
+	
 	public ModelAluno (int id, String nome , String endereco , String telefone,String email , String rg ,String cpf,String login,String senha){
 
 		this.id = id;
@@ -41,6 +38,7 @@ public class ModelAluno {
 		this.rg = rg;
 		this.cpf = cpf;
 		this.login = login;
+		this.senha = senha;
 
 	}
 
@@ -131,13 +129,16 @@ public class ModelAluno {
 	//************************* SETS ********************************
 
 
-	public void criar() {
+	public void criar() throws ClassNotFoundException {
 
 		DaoAluno dao = new DaoAluno();		
 		ToAluno toAluno = getTO();
-		dao.inserir(toAluno); 	
+		dao.inserir(toAluno); 
+		this.id = toAluno.getId();
 
 	}
+	
+	
 
 	public ToAluno getTO() {
 		
@@ -164,20 +165,20 @@ public class ModelAluno {
 	}
 
 
-	public void excluir(int id) {
+	public void excluir() {
 		DaoAluno dao = new DaoAluno();
 		ToAluno toAluno = new ToAluno();
 		toAluno.setId(id);
-		dao.remover(id);
+		dao.remover(toAluno);
 	}
 
-	public void carregar(int num) {
+	public void carregar() throws ClassNotFoundException {
 
-		ToAluno toAluno = new ToAluno();
+	
 
 		DaoAluno dao = new DaoAluno();
 
-		toAluno = dao.getAlunoById(num);
+		ToAluno toAluno = dao.carregar(id);
 
 		id = toAluno.getId();	
 		nome = toAluno.getNome();
@@ -192,7 +193,19 @@ public class ModelAluno {
 
 
 	}
-
+	
+	public ArrayList<ToAluno> listarAlunos() throws ClassNotFoundException{
+		ArrayList<ToAluno> lista;
+		DaoAluno dao = new DaoAluno();
+		lista = dao.listarAlunos();
+		return lista;
+	}
+	public ArrayList<ToAluno> listarAlunos(String chave) throws ClassNotFoundException{
+		ArrayList<ToAluno> lista;
+		DaoAluno dao = new DaoAluno();
+		lista = dao.listarAlunos(chave);
+		return lista;
+	}
 
 
 
