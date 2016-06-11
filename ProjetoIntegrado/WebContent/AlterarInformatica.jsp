@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="To.ToArtes"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -8,7 +9,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>cerveja.biz - Alterar Artes</title>
+<title>Universidade Loki - Alterar Informática</title>
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
@@ -16,38 +17,19 @@
 
 <body>
 	<!-- Barra superior com os menus de navegação -->
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-					aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="index.html">cerveja.biz</a>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="listar_alunos.html">Alunos</a></li>
-					<li><a href="listar_artes.html">Artes</a></li>
-					<li><a href="listar_informatica.html">Informática</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<c:import url="Menu.jsp" />
 	
-	<%ToArtes toArtes = (ToArtes)request.getAttribute("artesTO"); %>
-
 	<!-- Container Principal -->
 	<div id="main" class="container">
 		<h3 class="page-header">
-			Alterar Artes #<%=toArtes.getId() %></h3>
+			
+			Alterar Informática #${informaticaTO.id}</h3>
+			
+					
 		<!-- Formulario para alteração de clientes -->
-		<form action="manter_artes.do" method="post">
+		<form action="manter_informatica.do" method="post">
 			<!-- area de campos do form -->
-			<input type="hidden" name="id" value="<%=toArtes.getId() %>" />
+			<input type="hidden" name="id" value="${informaticaTO.id }" />
 
 
 			<div class="row">
@@ -55,7 +37,7 @@
 					<label for="nome">Nome</label> <input type="text"
 						class="form-control" name="nome" id="nome" required
 						maxlength="100" placeholder="nome completo"
-						value="<%=toArtes.getNome()%>">
+						value="${informaticaTO.nome}">
 				</div>
 			</div>
 
@@ -64,7 +46,7 @@
 					<label for="dataInicio">Data início</label> <input type="text"
 						class="form-control" name="dataInicio" id="dataInicio" required
 						maxlength="100" placeholder="data início"
-						value="<%=toArtes.getDataInicio()%>">
+						value="${informaticaTO.dataInicio}">
 				</div>
 			</div>
 
@@ -73,7 +55,7 @@
 					<label for="dataTermino">Data término</label> <input type="text"
 						class="form-control" name="dataTermino" id="dataTermino" required
 						maxlength="100" placeholder="dataTermino"
-						value="<%=toArtes.getDataTermino()%>">
+						value="${informaticaTO.dataTermino}">
 				</div>
 			</div>
 
@@ -83,7 +65,7 @@
 					<label for="horario">Horário</label> <input type="text"
 						class="form-control" name="horario" id="horario" required
 						maxlength="100" placeholder="horario"
-						value="<%=toArtes.getHorario()%>">
+						value="${informaticaTO.horario}">
 				</div>
 			</div>
 
@@ -92,7 +74,7 @@
 				<div class="form-group col-md-12">
 					<label for="vagas">Vagas</label> <input type="text" class="form-control"
 						name="vagas" id="vagas" required maxlength="100" placeholder="vagas"
-						value="<%=toArtes.getVagas()%>">
+						value="${informaticaTO.vagas}">
 				</div>
 			</div>
 
@@ -101,33 +83,33 @@
 				<div class="form-group col-md-12">
 					<label for="valor">Valor</label> <input type="number"
 						class="form-control" name="valor" id="valor" required maxlength="100"
-						placeholder="valor" value="<%=toArtes.getValor()%>">
+						placeholder="valor" value="${informaticaTO.valor}">
+				</div>
+			</div>
+
+			
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="numLab">Número Laboratório</label> <input type="text"
+						class="form-control" name="numLab" id="numLab" required
+						maxlength="100" placeholder="número laboratório"
+						value="${informaticaTO.numLab}">
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label for="descMaterial">Descrição Material</label> <input type="text"
-						class="form-control" name="descMaterial" id="descMaterial" required
-						maxlength="100" placeholder="descMaterial"
-						value="<%=toArtes.getDescMat()%>">
+					<label for="regSoft">Registro de Software</label> <input type="text"
+						class="form-control" name="regSoft" id="regSoft" required
+						maxlength="100" placeholder="registro de software"
+						value="${informaticaTO.regSoft}">
 				</div>
 			</div>
-
-			<div class="row">
-				<div class="form-group col-md-12">
-					<label for="livros">Livros</label> <input type="text"
-						class="form-control" name="livros" id="livros" required
-						maxlength="100" placeholder="livros"
-						value="<%=toArtes.getLivros()%>">
-				</div>
-			</div>
-
 			<div id="actions" class="row">
 				<div class="col-md-12">
 					<button type="submit" class="btn btn-primary" name="acao"
 						value="Editar">Salvar</button>
-					<a href="listar_artes.html" class="btn btn-default">Cancelar</a>
+					<a href="ListarInformatica.jsp" class="btn btn-default">Cancelar</a>
 				</div>
 			</div>
 		</form>

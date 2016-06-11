@@ -78,13 +78,13 @@ public class ManterAlunoController extends HttpServlet {
 				ArrayList<ToAluno> lista = new ArrayList<>();
 				lista.add(modelAluno.getTO());
 				request.setAttribute("lista", lista);
-				view = request.getRequestDispatcher("ListarAlunos.jsp");
+				view = request.getRequestDispatcher("ListarAluno.jsp");
 			
 			
 		}else if(pAcao.equals("Excluir")){
 
 			modelAluno.excluir();	
-			view = request.getRequestDispatcher("listar_alunos.html");
+			view = request.getRequestDispatcher("ListarAluno.jsp");
 
 
 		}else if (pAcao.equals("Atualizar")){
@@ -98,7 +98,7 @@ public class ManterAlunoController extends HttpServlet {
 				e.printStackTrace();
 			}			
 			request.setAttribute("alunoTO", modelAluno.getTO());
-			view = request.getRequestDispatcher("AlteraAluno.jsp");		
+			view = request.getRequestDispatcher("AlterarAluno.jsp");		
 
 		}else if (pAcao.equals("Carregar")){
 			

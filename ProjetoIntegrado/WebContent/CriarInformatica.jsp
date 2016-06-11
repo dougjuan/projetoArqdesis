@@ -1,48 +1,30 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>cerveja.biz - Criar Artes</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Universidade Loki - Criar Informática</title>
 
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/style.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
+
 <body>
-	<!-- Barra superior com os menus de navegação -->
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-					aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="index.html">cerveja.biz</a>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="listar_alunos.html">Alunos</a></li>
-					<li><a href="listar_artes.html">Artes</a></li>
-					<li><a href="listar_informatica.html">Informática</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-
-
-
+ 
+ <!-- Barra superior com os menus de navegação -->
+	<c:import url="Menu.jsp"/>
+	
 
 	<!-- Container Principal -->
 	<div id="main" class="container">
-		<h3 class="page-header">Incluir Artes</h3>
+		<h3 class="page-header">Incluir Informática</h3>
 		<!-- Formulario para inclusao de clientes -->
-		<form action="manter_artes.do" method="post">
+		<form action="manter_informatica.do" method="post">
 
 			<!-- area de campos do form -->
 
@@ -101,24 +83,24 @@
 				</div>
 			</div>
 
+
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label for="descMaterial">Descrição Material</label> <input type="text"
-						class="form-control" name="descMaterial" id="descMaterial" required
-						maxlength="100" placeholder="descMaterial">
+					<label for="numLab">Número laboratório</label> <input type="text"
+						class="form-control" name="numLab" id="numLab" required
+						maxlength="100" placeholder="número laboratório">
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label for="livros">Livros</label> <input type="text"
-						class="form-control" name="livros" id="livros" required
-						maxlength="100" placeholder="livros">
+					<label for="regSoft">Registro de software</label> <input type="text"
+						class="form-control" name="regSoft" id="regSoft" required
+						maxlength="100" placeholder="registro de software">
 				</div>
 			</div>
 
-
-			<hr />
+		
 			<div id="actions" class="row">
 				<div class="col-md-12">
 

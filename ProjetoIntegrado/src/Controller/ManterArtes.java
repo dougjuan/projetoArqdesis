@@ -119,7 +119,7 @@ public class ManterArtes extends HttpServlet {
 		}else if(pAcao.equals("Excluir")){
 
 			modelArtes.excluir();	
-			view = request.getRequestDispatcher("listar_artes.html");
+			view = request.getRequestDispatcher("ListarArtes.jsp");
 
 		}else if (pAcao.equals("Atualizar")){
 
@@ -135,7 +135,7 @@ public class ManterArtes extends HttpServlet {
 			}
 
 			request.setAttribute("artesTO", modelArtes.getToArtes());
-			view = request.getRequestDispatcher("AlteraArtes.jsp");		
+			view = request.getRequestDispatcher("AlterarArtes.jsp");		
 
 
 		}else if (pAcao.equals("Carregar")){

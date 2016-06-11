@@ -120,7 +120,7 @@ public class ManterInformaticaController extends HttpServlet {
 
 
 			modelInformatica.excluir();	
-			view = request.getRequestDispatcher("listar_informatica.html");
+			view = request.getRequestDispatcher("ListarInformatica.jsp");
 
 
 
@@ -135,7 +135,7 @@ public class ManterInformaticaController extends HttpServlet {
 			}
 
 			request.setAttribute("informaticaTO", modelInformatica.getToInformatica());
-			view = request.getRequestDispatcher("AlteraInformatica.jsp");		
+			view = request.getRequestDispatcher("AlterarInformatica.jsp");		
 
 
 		}else if (pAcao.equals("Carregar")){

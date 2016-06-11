@@ -64,7 +64,7 @@ public class ListarAlunoController extends HttpServlet {
 		
 		RequestDispatcher dispatcher = request.
 		
-				getRequestDispatcher("ListarAlunos.jsp");
+				getRequestDispatcher("ListarAluno.jsp");
 		
 		dispatcher.forward(request, response);
 	

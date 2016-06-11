@@ -86,6 +86,9 @@ public class DaoArtes {
 		ToArtes toArtes = new ToArtes();
 		toArtes.setId(id);
 		String sqlSelect = "SELECT * FROM ARTES WHERE COD_ARTES=?";
+		
+		//String sqlSelect = "SELECT cod_Artes, nome, DATE_FORMAT( `dataInicio` , '%d/%c/%Y') as dataTermino, DATE_FORMAT( `dataTermino` , '%d/%c/%Y') as dataTermino, horario, numeroVagas, valor, descMaterial, nomeLivro FROM `Artes`;";
+		
 		// usando o try with resources do Java 7, que fecha o que abriu
 		try (Connection conn = FabricaConexao.getConexao(); 
 				PreparedStatement stm = conn.prepareStatement(sqlSelect);) {
@@ -118,7 +121,7 @@ public class DaoArtes {
 	public ArrayList<ToArtes> listarArtes() throws ClassNotFoundException {
 		ToArtes toArtes;
 		ArrayList<ToArtes> lista = new ArrayList<>();
-		String sqlSelect = "SELECT *  FROM ARTES";
+		String sqlSelect = "SELECT * FROM ARTES";
 		// usando o try with resources do Java 7, que fecha o que abriu
 		try (Connection conn = FabricaConexao.getConexao(); 
 				PreparedStatement stm = conn.prepareStatement(sqlSelect);) {
@@ -154,7 +157,7 @@ public class DaoArtes {
 	public ArrayList<ToArtes> listarArtes(String chave) throws ClassNotFoundException {
 		ToArtes toArtes;
 		ArrayList<ToArtes> lista = new ArrayList<>();
-		String sqlSelect = "SELECT * FROM ARTES WHERE UPPER (NOME) LIKE ?";
+		String sqlSelect = "SELECT * FROM INFORMATICA WHERE UPPER (NOME) LIKE ?";
 		// usando o try with resources do Java 7, que fecha o que abriu
 		try (Connection conn = FabricaConexao.getConexao();
 				PreparedStatement stm = conn.prepareStatement(sqlSelect);) {

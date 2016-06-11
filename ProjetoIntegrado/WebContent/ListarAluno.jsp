@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Buscar Informática</title>
+<title>Buscar Alunos</title>
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
@@ -26,11 +26,11 @@
 						aria-label="Fechar">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="modalLabel">Excluir Informática</h4>
+					<h4 class="modal-title" id="modalLabel">Excluir Aluno</h4>
 				</div>
-				<div class="modal-body">Deseja realmente excluir este curso informática?</div>
+				<div class="modal-body">Deseja realmente excluir este aluno?</div>
 				<div class="modal-footer">
-					<form action="manter_informatica.do" method="post">
+					<form action="manter_aluno.do" method="post">
 						<input type="hidden" name="id" id="id_excluir" />
 						<button type="submit" class="btn btn-primary" name="acao"
 							value="Excluir">Sim</button>
@@ -47,17 +47,17 @@
 
 	<!-- Container Principal -->
 	<div id="main" class="container-fluid">
-		<form action="listar_informatica.do" method="post">
+		<form action="listar_aluno.do" method="post">
 			<div id="top" class="row">
 				<div class="col-md-3">
-					<h2>Informática</h2>
+					<h2>Alunos</h2>
 				</div>
 
 				<div class="col-md-6">
 					<div class="input-group h2">
 						<input name="data[search]" class="form-control" id="search"
 							type="text"
-							placeholder="Pesquisar curso de informática (deixe vazio para trazer todos)">
+							placeholder="Pesquisar Alunos (deixe vazio para trazer todos)">
 						<span class="input-group-btn">
 							<button class="btn btn-primary" type="submit">
 								<span class="glyphicon glyphicon-search"></span>
@@ -67,8 +67,8 @@
 				</div>
 
 				<div class="col-md-3">
-					<a href="CriarInformatica.jsp" class="btn btn-primary pull-right h2">Novo
-						Informática</a>
+					<a href="CriarAluno.jsp" class="btn btn-primary pull-right h2">Novo
+						Aluno</a>
 				</div>
 			</div>
 			<!-- /#top -->
@@ -81,15 +81,16 @@
 					<table class="table table-striped" cellspacing="0" cellpadding="0">
 						<thead>
 							<tr>
-									<th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Data Início</th>
-                                    <th>Data Término</th>
-                                    <th>Horário</th>
-                                    <th>Vagas</th>
-                                    <th>Valor</th>
-                                    <th>Número laboratório</th>
-                                    <th>Registro de Software</th>
+								<th>ID</th>
+								<th>Nome</th>
+								<th>Endereço</th>
+								<th>Telefone</th>
+								<th>Email</th>
+								<th>Rg</th>
+								<th>Cpf</th>
+								<th>Login</th>
+								<th>Senha</th>
+
 
 								<th class="actions">Ações</th>
 							</tr>
@@ -100,17 +101,17 @@
 						<tr>
 							<td>${to.id}</td>
 							<td>${to.nome}</td>
-							<td>${to.dataInicio}</td>
-							<td>${to.dataTermino}</td>
-							<td>${to.horario}</td>
-							<td>${to.vagas}</td>
-							<td>${to.valor}</td>
-							<td>${to.numLab}</td>
-							<td>${to.regSoft}</td>
+							<td>${to.endereco}</td>
+							<td>${to.telefone}</td>
+							<td>${to.email}</td>
+							<td>${to.rg}</td>
+							<td>${to.cpf}</td>
+							<td>${to.login}</td>
+							<td>${to.senha}</td>
 							
 							   <td class="actions">
-                                                <a class="btn btn-success btn-xs" href="manter_informatica.do?acao=Carregar&id=${to.id }">Visualizar</a>
-                                                <a class="btn btn-warning btn-xs" href="manter_informatica.do?acao=Atualizar&id=${to.id }">Editar</a>
+                                                <a class="btn btn-success btn-xs" href="manter_aluno.do?acao=Carregar&id=${to.id }">Visualizar</a>
+                                                <a class="btn btn-warning btn-xs" href="manter_aluno.do?acao=Atualizar&id=${to.id }">Editar</a>
                                                 <button id="btn${to.id }%>" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete-modal" data-cliente="${to.id }">Excluir</button>
                                             </td>
                                         </tr>
